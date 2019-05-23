@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Platform, Alert, TouchableOpacity, StyleSheet, Button, TextInput, Text, View } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
-import Dialog, { DialogContent , DialogTitle } from 'react-native-popup-dialog';
+import Dialog, { DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 export default class Login extends Component {
   constructor(props) {
@@ -43,55 +43,58 @@ export default class Login extends Component {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.forgotView}>
+        {/* <View style={styles.forgotView}>
           <TouchableOpacity
-             title="Show Dialog"
-             onPress={this._forgot() }
-           >
+            onPress={this._forgot}>
             <Text style={styles.forgot}>
-              Forgot Password 
+              Forgot Password
           </Text>
           </TouchableOpacity>
+        </View> */}
+
+
+        <View style={styles.forgotView}>
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({ visible: true });
+            }}>
+            <Text style={styles.forgot}>
+              Forgot Password
+            </Text>
+          </TouchableOpacity>
+          <Dialog
+            visible={this.state.visible}
+            onTouchOutside={() => {
+              this.setState({ visible: false });
+
+            }}
+            dialogTitle={<DialogTitle title="Forget Password" />}
+          >
+            <DialogContent>
+              <Text style={styles.dialogboxText}>
+               Please enter the email
+              </Text>
+            </DialogContent>
+          </Dialog>
         </View>
 
         <View>
-          <Text style={ styles.conditionView }>
+          <Text style={styles.conditionView}>
             By signing in you are agreeing to our {"\n"} Terms & Conditions and Privacy policy
           </Text>
         </View>
 
 
-        <View style={styles.container}>
-          <Button
-            title="Show Dialog"
-            onPress={() => {
-              this.setState({ visible: true });
-            }}
-          />
-          <Dialog style = { styles.dialogbox }
-            visible={this.state.visible}
-            onTouchOutside={() => {
-              this.setState({ visible: false });
-              
-            }}
-            dialogTitle={<DialogTitle title="Dialog Title" />}
-          >
-            <DialogContent>
-            <Text style={ styles.conditionView }>
-                  
-            </Text>
-            </DialogContent>
-          </Dialog>
-        </View>
+
 
       </View>
-    )
+    );
   }
 }
 
 
 const styles = StyleSheet.create({
-  containerView: {  
+  containerView: {
     flex: 1,
     padding: 20,
     backgroundColor: '#fafafa'
@@ -128,15 +131,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   }
-,
-conditionView:{
+  ,
+  conditionView: {
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 50,
     marginLeft: 70,
-},
-dialogbox:{
-  
-}
-
+  }
 });
