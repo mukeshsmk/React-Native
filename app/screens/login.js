@@ -46,64 +46,52 @@ export default class Login extends Component {
         <View style={styles.forgotView}>
           <TouchableOpacity
              title="Show Dialog"
-             onPress={() => {
-               this.setState({ visible: true });
-             }}
+             onPress={this._forgot() }
            >
             <Text style={styles.forgot}>
               Forgot Password 
           </Text>
           </TouchableOpacity>
- 
         </View>
 
-
-        <Dialog style = { styles.dialogbox }
-            visible={this.state.visible}
-            onTouchOutside={() => {
-              this.setState({ visible: false });
-              
-            }}
-            dialogTitle={<DialogTitle title="Forgot Password" />}
-          >
-            <DialogContent>
-            <Text style={ styles.dialogboxText }>
-                 Please enter the email 
-            </Text>
-
-            <View style={styles.inputView}>
-              <TextField
-                label='Email'
-                onChangeText={(email) => this.setState({ email })}
-              />
-            </View>
-
-            <View style={styles.loginView}>
-              <TouchableOpacity
-                style={styles.login}
-                onPress={this._login}
-              >
-                <Text style={styles.loginText}>Reset </Text>
-              </TouchableOpacity>
-            </View>
-
-            </DialogContent>
-          </Dialog>
-          
         <View>
           <Text style={ styles.conditionView }>
             By signing in you are agreeing to our {"\n"} Terms & Conditions and Privacy policy
           </Text>
         </View>
 
+
+        <View style={styles.container}>
+          <Button
+            title="Show Dialog"
+            onPress={() => {
+              this.setState({ visible: true });
+            }}
+          />
+          <Dialog style = { styles.dialogbox }
+            visible={this.state.visible}
+            onTouchOutside={() => {
+              this.setState({ visible: false });
+              
+            }}
+            dialogTitle={<DialogTitle title="Dialog Title" />}
+          >
+            <DialogContent>
+            <Text style={ styles.conditionView }>
+                  
+            </Text>
+            </DialogContent>
+          </Dialog>
+        </View>
+
       </View>
-    );
+    )
   }
 }
 
 
 const styles = StyleSheet.create({
-  containerView: {
+  containerView: {  
     flex: 1,
     padding: 20,
     backgroundColor: '#fafafa'
@@ -131,7 +119,6 @@ const styles = StyleSheet.create({
   },
   forgotView: {
     alignItems: 'center',
-    width: "90%",
     marginTop: 10,
     marginBottom: 20
   },
@@ -149,7 +136,7 @@ conditionView:{
     marginLeft: 70,
 },
 dialogbox:{
-  width: "90%",
+  
 }
 
 });
