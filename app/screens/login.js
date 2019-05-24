@@ -1,27 +1,29 @@
 
 import React, { Component } from 'react';
-import { Platform, Alert, TouchableOpacity, StyleSheet, Button, TextInput, Text, View } from 'react-native';
+import { Platform, Alert, AsyncStorage, TouchableOpacity, StyleSheet, Image , Button, TextInput, Text, View } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 import Dialog, { DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 export default class Login extends Component {
   constructor(props) {
-    super(props);
-    this.state = { email: '', };
-    this.state = { password: '', };
+    super(props)
+    this.state = {
+      value: {
+        email: '',
+        password: ''
+      }
+    }
+  }
 
-  }
-  _login() {
-    Alert.alert('You tapped the button!')
-  }
-  _forgot() {
-    Alert.alert('You tapped the alert!')
-  }
 
   render() {
 
     return (
       <View style={styles.containerView}>
+
+        <View style={styles.loginView}>
+          <Image style={styles.logoImage} source={require("../images/logo.png")} />
+        </View>
 
         <View style={styles.inputView}>
           <TextField
@@ -34,23 +36,16 @@ export default class Login extends Component {
           />
         </View>
 
+        {/* disabled={this.state.isLoggingIn || !this.state.email || !this.state.password} */}
+
         <View style={styles.loginView}>
-          <TouchableOpacity
+          <TouchableOpacity 
             style={styles.login}
-            onPress={this._login}
+            onPress={() => this.props.navigation.navigate('Project')} 
           >
             <Text style={styles.loginText}> SIGN IN </Text>
           </TouchableOpacity>
         </View>
-
-        {/* <View style={styles.forgotView}>
-          <TouchableOpacity
-            onPress={this._forgot}>
-            <Text style={styles.forgot}>
-              Forgot Password
-          </Text>
-          </TouchableOpacity>
-        </View> */}
 
 
         <View style={styles.forgotView}>
@@ -62,7 +57,7 @@ export default class Login extends Component {
               Forgot Password
             </Text>
           </TouchableOpacity>
-          <Dialog
+          <Dialog style={styles.dialogbox}
             visible={this.state.visible}
             onTouchOutside={() => {
               this.setState({ visible: false });
@@ -72,8 +67,26 @@ export default class Login extends Component {
           >
             <DialogContent>
               <Text style={styles.dialogboxText}>
-               Please enter the email
+                Enter the email
               </Text>
+              <View style={styles.inputView}>
+                <TextField
+                  label='Email'
+                  onChangeText={(email) => this.setState({ email })}
+                />
+              </View>
+              <View style={styles.resetView}>
+                <TouchableOpacity
+                  style={styles.reset}
+                  onPress={this._login}
+                >
+                  <Text style={styles.resetText}
+                   onPress={() => {
+                    this.setState({ visible: false });
+                  }}>
+                     Reset </Text>
+                </TouchableOpacity>
+              </View>
             </DialogContent>
           </Dialog>
         </View>
@@ -100,8 +113,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa'
 
   },
+  logoView:{
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logoImage:{
+    width: '30%',
+    height:'25%',
+    margin:0,
+  },
   inputView: {
-    marginTop: 10,
+    marginTop: 0,
     marginBottom: 20
   },
   loginView: {
@@ -137,5 +159,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 50,
     marginLeft: 70,
-  }
+  },
+  dialogbox: {
+    width: 100,
+  },
+  dialogboxText: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingRight: '50%',
+    marginTop: 10,
+  },
+  resetView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  reset: {
+    width: "35%",
+    margin: 0,
+    backgroundColor: '#2ba1d0',
+    padding: 10,
+    color: '#fff',
+    borderRadius: 30,
+  },
+  resetText: {
+    color: '#fff',
+    paddingLeft: 20
+  },
 });
