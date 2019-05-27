@@ -7,7 +7,7 @@ export default class Screen3 extends Component {
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text> Screen 3</Text>
         <Button
-         onPress={() => this.props.navigation.navigate('Screen4')}
+         onPress={() => this.props.navigation.navigate('Mytasks')}
           title="Click"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"

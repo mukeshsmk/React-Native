@@ -5,10 +5,10 @@ import Home from './../screens/home';
 import Login from './../screens/login';
 import Projects from '../../app/components/projects';
 import Details from '../screens/details';
-import Screen1 from './../screens/screen1';
+import Notification from '../screens/notification';
 import Screen2 from './../screens/screen2';
 import Screen3 from './../screens/screen3';
-import Screen4 from './../screens/screen4';
+import Mytasks from '../screens/mytasks';
 
 
 const AppNavigator = createStackNavigator({
@@ -24,8 +24,8 @@ const AppNavigator = createStackNavigator({
       Details:{
         screen:Details,
       },
-      Screen1:{
-        screen: Screen1,
+      Notification:{
+        screen: Notification,
       },
       Screen2:{
         screen: Screen2,
@@ -33,8 +33,8 @@ const AppNavigator = createStackNavigator({
       Screen3:{
         screen: Screen3,
       },
-      Screen4:{
-        screen: Screen4,
+      Mytasks:{
+        screen: Mytasks,
       },
     }, {
         initialRouteName: 'Login',
