@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, ScrollView, ImageBackground, StyleSheet ,TouchableOpacity } from 'react-native';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
 
-export default class Projects extends Component {
+export default class Details extends Component {
     render() {
         return (
             <View style={styles.containerView}>
@@ -11,20 +11,24 @@ export default class Projects extends Component {
                     source={{ uri: 'http://bit.ly/2GfzooV' }}
                     style={styles.image}
                 >
+                <View style={styles.overlay} />
                     <Text
-                        style={styles.imageText}
+                    style={styles.imageText}
                     >
-                        probs notification test
+                       probs notification test
+                    </Text>
+                    <Text
+                    style={styles.projectOwner}
+                    >
+                        Project Owner:
+                    </Text>
+                    <Text
+                        style={styles.ownerName}
+                    >
+                        Jagan
                     </Text>
                     
-                    <View style={styles.openView}>
-                        <TouchableOpacity 
-                            style={styles.open}
-                            onPress={() => this.props.navigation.navigate('Details')}
-                        >
-                            <Text style={styles.openText}> OPEN </Text>
-                        </TouchableOpacity>
-                    </View>
+                  
 
                 </ImageBackground>
 
@@ -42,26 +46,41 @@ const styles = StyleSheet.create({
     },
     image: {
         flex: 1,
-        height: '50%',
+        height: '35%',
         width: '100%',
         position: 'relative', // because it's parent
+        opacity: 0.7,
+        // backgroundColor:'#000',
         top: 2,
         left: 2
     },
+//    overlay: {
+//     ...StyleSheet.absoluteFillObject,
+//     backgroundColor: 'rgba(69,85,117,0.7)',
+//   },
     imageText: {
-        fontWeight: 'bold',
         color: 'white',
         position: 'absolute',
         bottom: 0,
         left: '5%',
-        top: '25%',
-        fontSize: 20
+        top: '5%',
+        fontSize: 36
     },
-    openView:{
+    projectOwner:{
         position: 'absolute',
         bottom: 0,
         left: '5%',
-        top: '35%',
+        top: '20%',
+        color: 'white',
+        fontSize: 22,
+    },
+    ownerName:{
+        position: 'absolute',
+        bottom: 0,
+        left: '5%',
+        top: '25%',
+        color: 'white',
+        fontSize: 16,
     },
     openText:{
         fontWeight: 'bold',
