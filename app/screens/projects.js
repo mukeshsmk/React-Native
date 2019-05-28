@@ -3,6 +3,38 @@ import { Text, View, ScrollView, ImageBackground, StyleSheet ,TouchableOpacity }
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
 
 export default class Projects extends Component {
+
+    _retrieveData= async () => {
+        var DEMO_TOKEN = await AsyncStorage.getItem(id_token);
+        fetch("http://api-dev.ethosapp.com/v3/projects", {
+          method: "GET",
+          headers: {
+            'Authorization': 'Bearer ' + DEMO_TOKEN,
+            'X-API-KEY': 'k41403aqpiqpn66w7oo50jgivzw2irq0vqmsxmvm',
+          }
+        })
+        .then((response) => response.text())
+        .then((projects) => { 
+          Alert.alert(
+            "Details:", projects)
+        })
+        .done();
+      }
+
+
+      componentDidMount(){
+        return fetch('http://api-dev.ethosapp.com/v3/projects')
+          .then((response) => response.json())
+          .then((responseJson) => {
+    
+            this.setState({pokeList: pokemon.results, loading: false});
+    
+          })
+          .catch((error) =>{
+            console.error(error);
+          });
+      }
+    
     render() {
         return (
             <View style={styles.containerView}>

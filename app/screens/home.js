@@ -10,7 +10,6 @@ export default class Home extends Component {
         <Button
           onPress={() => this.props.navigation.openDrawer()}
           title="Menu"
-          color="#841584"
           accessibilityLabel="Learn more about this purple button"
         />
       </View>

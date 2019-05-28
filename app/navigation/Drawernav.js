@@ -12,6 +12,9 @@ import Screen2 from '../screens/screen2';
 import Screen3 from '../screens/screen3';
 import Mytasks from '../screens/mytasks';
 
+
+
+
 const CustomDrawerContentComponent = props => (
   <View style={{ flex: 1 }}>
    
@@ -28,26 +31,7 @@ const CustomDrawerContentComponent = props => (
           labelStyle={styles.navItemText}
         />
         <TouchableOpacity
-          onPress={() =>
-            Alert.alert(
-              "Log out",
-              "Do you want to logout?",
-              [
-                {
-                  text: "Cancel",
-                  onPress: () => {
-                    return null;
-                  }
-                },
-                {
-                  text: "Confirm",
-                  onPress: () => {
-                  props.navigation.navigate('Login')
-                  }},
-                ],
-                { cancelable: false }
-              )  
-              }>
+         onPress={this._userLogout}>
           <View style={styles.navItems}>
             <Text style={[styles.navItemText, { margin: 16 }]}>Logout</Text>
           </View>
@@ -57,7 +41,7 @@ const CustomDrawerContentComponent = props => (
   </View>
 );
 
-const MyDrawerNavigator = createDrawerNavigator({
+const DrawerNavigator = createDrawerNavigator({
   Home: {
     screen: Home
   },
@@ -127,5 +111,25 @@ const styles = StyleSheet.create({
     borderRadius: 5
   }
 });
+  
+export default createAppContainer(DrawerNavigator);
 
-export default createAppContainer(MyDrawerNavigator);
+class RegisterView extends Component {
+
+  constructor(props) {
+    super(props)
+  
+  }
+
+  async _userLogout() {
+  try {
+    await AsyncStorage.clear();
+     Alert.alert("Logout Success!")
+    this.props.navigation.navigate('Login');
+   
+  } catch (error) {
+    console.log('AsyncStorage error: ' + error.message);
+  }
+}
+  
+}

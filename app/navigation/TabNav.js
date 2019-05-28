@@ -46,36 +46,3 @@ const TabNavigator = createBottomTabNavigator({
 });
 
 export default createAppContainer(TabNavigator);
-
-
-//  const TabNavigation = TabNavigator({
-//   Home: {
-//     screen: Home,
-//     navigationOptions: {
-//       tabBarLabel: "Home",
-//       tabBarIcon: ({ tintColor }) => (
-//         <FontAwesome name="home" size={30} color={tintColor} />
-//       )
-//     }
-//   },
-//   Screen1: {
-//     screen: Screen1,
-//     navigationOptions: {
-//       tabBarLabel: "Screen1",
-//       tabBarIcon: ({ tintColor }) => (
-//         <FontAwesome name="user" size={30} color={tintColor} />
-//       )
-//     }
-//   },
-//   Screen2: {
-//     screen: Screen2,
-//     navigationOptions: {
-//       tabBarLabel: "Screen2",
-//       tabBarIcon: ({ tintColor }) => (
-//         <FontAwesome name="user" size={30} color={tintColor} />
-//       )
-//     }
-//   }
-// });
-
-// export default createAppContainer(TabNavigation);

@@ -3,7 +3,7 @@ import {createStackNavigator, createAppContainer} from 'react-navigation';
 
 import Home from './../screens/home';
 import Login from './../screens/login';
-import Projects from '../../app/components/projects';
+import Projects from '../screens/projects';
 import Details from '../screens/details';
 import Notification from '../screens/notification';
 import Screen2 from './../screens/screen2';
@@ -11,7 +11,7 @@ import Screen3 from './../screens/screen3';
 import Mytasks from '../screens/mytasks';
 
 
-const AppNavigator = createStackNavigator({
+const StackNavigator = createStackNavigator({
     Home:{
         screen:Home,
       },
@@ -40,4 +40,4 @@ const AppNavigator = createStackNavigator({
         initialRouteName: 'Login',
     });
   
-  export default createAppContainer(AppNavigator);
+  export default createAppContainer(StackNavigator);

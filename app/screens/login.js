@@ -1,8 +1,9 @@
 
 import React, { Component } from 'react';
-import { Platform, Alert, AsyncStorage, TouchableOpacity, StyleSheet, Image , Button, TextInput, Text, View } from 'react-native';
+import { Platform, Alert, AsyncStorage, TouchableOpacity, StyleSheet, Image, Button, TextInput, Text, View } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 import Dialog, { DialogContent, DialogTitle } from 'react-native-popup-dialog';
+
 
 export default class Login extends Component {
   constructor(props) {
@@ -10,11 +11,72 @@ export default class Login extends Component {
     this.state = {
       value: {
         email: '',
-        password: ''
+        password: '',
+        auth_token: ''
       }
     }
   }
 
+  async componentDidMount() {
+    try {
+      const user = await AsyncStorage.getItem(id_token)
+      console.log('user: ', id_token)
+      if (user) {
+        Home()
+      } else {
+        Login()
+      }
+    } catch (err) {
+      console.log('error: ', err)
+      Login()
+    }
+  }
+
+
+
+  async _userLogout() {
+    try {
+      await AsyncStorage.removeItem(id_token);
+      Alert.alert("Logout Success!")
+    } catch (error) {
+      console.log('AsyncStorage error: ' + error.message);
+    }
+  }
+
+
+  _userLogin = async () => {
+  
+    fetch('http://api-dev.ethosapp.com/v3/users', {
+      method: 'post',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-API-KEY': 'k41403aqpiqpn66w7oo50jgivzw2irq0vqmsxmvm',
+          '_action': 'login'
+      },
+      body: JSON.stringify({
+        email: this.state.email, 
+        password: this.state.password, 
+      })
+    }).then((response) => response.json())
+      .then((res) => {
+        console.log(res)
+        if (typeof (res.message) != "undefined") {
+          Alert.alert("Error", "Error: " + res.message);
+        }
+        else {
+          AsyncStorage.setItem('id_token', res.token);
+          AsyncStorage.setItem("X-API-KEY", 'k41403aqpiqpn66w7oo50jgivzw2irq0vqmsxmvm');
+          AsyncStorage.setItem("_action", 'login');
+          Alert.alert("Welcome", " You have succesfully logged in");
+          // Alert.alert('id_token', res.token);
+          this.props.navigation.navigate('Home');
+
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+  }
 
   render() {
 
@@ -39,9 +101,9 @@ export default class Login extends Component {
         {/* disabled={this.state.isLoggingIn || !this.state.email || !this.state.password} */}
 
         <View style={styles.loginView}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.login}
-            onPress={() => this.props.navigation.navigate('Projects')}
+            onPress={this._userLogin}
           >
             <Text style={styles.loginText}> SIGN IN </Text>
           </TouchableOpacity>
@@ -81,10 +143,10 @@ export default class Login extends Component {
                   onPress={this._login}
                 >
                   <Text style={styles.resetText}
-                   onPress={() => {
-                    this.setState({ visible: false });
-                  }}>
-                     Reset </Text>
+                    onPress={() => {
+                      this.setState({ visible: false });
+                    }}>
+                    Reset </Text>
                 </TouchableOpacity>
               </View>
             </DialogContent>
@@ -113,14 +175,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa'
 
   },
-  logoView:{
+  logoView: {
     alignItems: 'center',
     justifyContent: 'center',
   },
-  logoImage:{
+  logoImage: {
     width: '30%',
-    height:'25%',
-    margin:0,
+    height: '25%',
+    margin: 0,
   },
   inputView: {
     marginTop: 0,
