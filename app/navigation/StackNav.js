@@ -9,6 +9,7 @@ import Notification from '../screens/notification';
 import Screen2 from './../screens/screen2';
 import Screen3 from './../screens/screen3';
 import Mytasks from '../screens/mytasks';
+import SwitchNav from '../navigation/SwitchNav';
 
 
 const StackNavigator = createStackNavigator({
@@ -36,6 +37,9 @@ const StackNavigator = createStackNavigator({
       Mytasks:{
         screen: Mytasks,
       },
+      SwitchNav:{
+        screen: SwitchNav,
+      }
     }, {
         initialRouteName: 'Login',
     });

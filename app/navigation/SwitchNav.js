@@ -1,18 +1,11 @@
-import { createSwitchNavigator } from 'react-navigation'
+import React, { Component } from 'react';
+import { Text, View ,Button } from 'react-native';
+import SwitchNavigator from './AppNavigator';
 
-import Login from '../screens/login';
-import TabNavigator from '../navigation/TabNav';
-
-export const getRootNavigator = (loggedIn = false) => createSwitchNavigator(
-  {
-    LoggedOut: {
-      screen: Login
-    },
-    LoggedIn: {
-      screen: TabNavigator
-    }
-  },
-  {
-    initialRouteName: loggedIn ? 'LoggedIn' : 'LoggedOut'
+export default class SwitchNav extends Component {
+  render() {
+    return (
+     <SwitchNavigator />
+    );
   }
-);
+}

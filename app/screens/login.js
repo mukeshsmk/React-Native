@@ -1,9 +1,10 @@
-
 import React, { Component } from 'react';
-import { Platform, Alert, AsyncStorage, TouchableOpacity, StyleSheet, Image, Button, TextInput, Text, View } from 'react-native';
+import { Platform, Alert , TouchableOpacity, StyleSheet, Image, Button, TextInput, Text, View } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 import Dialog, { DialogContent, DialogTitle } from 'react-native-popup-dialog';
+import AsyncStorage from '@react-native-community/async-storage';
 
+const ACCESS_TOKEN = 'access_token';
 
 export default class Login extends Component {
   constructor(props) {
@@ -17,7 +18,9 @@ export default class Login extends Component {
     }
   }
 
+
   async componentDidMount() {
+    console("Token is",ACCESS_TOKEN)
     try {
       const user = await AsyncStorage.getItem(id_token)
       console.log('user: ', id_token)
@@ -32,8 +35,6 @@ export default class Login extends Component {
     }
   }
 
-
-
   async _userLogout() {
     try {
       await AsyncStorage.removeItem(id_token);
@@ -45,7 +46,7 @@ export default class Login extends Component {
 
 
   _userLogin = async () => {
-  
+    const { navigate } = this.props.navigation;
     fetch('http://api-dev.ethosapp.com/v3/users', {
       method: 'post',
       headers: {
@@ -65,18 +66,21 @@ export default class Login extends Component {
           Alert.alert("Error", "Error: " + res.message);
         }
         else {
-          AsyncStorage.setItem('id_token', res.token);
-          AsyncStorage.setItem("X-API-KEY", 'k41403aqpiqpn66w7oo50jgivzw2irq0vqmsxmvm');
-          AsyncStorage.setItem("_action", 'login');
-          Alert.alert("Welcome", " You have succesfully logged in");
-          // Alert.alert('id_token', res.token);
-          this.props.navigation.navigate('Home');
-
+        
+          AsyncStorage.multiSet([
+            ["id_token",  res.token],
+            ["X-API-KEY", "k41403aqpiqpn66w7oo50jgivzw2irq0vqmsxmvm"],
+            ['isLoggedIn','true']
+        ])
+        navigate("Home");
+         
+        //  this.props.navigation.navigate('Home');
         }
       }).catch((error) => {
         console.error(error);
       });
   }
+
 
   render() {
 

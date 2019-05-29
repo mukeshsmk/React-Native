@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {AsyncStorage} from 'react-native';
 import { Text, View, ScrollView, ImageBackground, StyleSheet ,TouchableOpacity } from 'react-native';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
 
@@ -11,6 +12,7 @@ export default class Projects extends Component {
           headers: {
             'Authorization': 'Bearer ' + DEMO_TOKEN,
             'X-API-KEY': 'k41403aqpiqpn66w7oo50jgivzw2irq0vqmsxmvm',
+            'id_token': res.token
           }
         })
         .then((response) => response.text())

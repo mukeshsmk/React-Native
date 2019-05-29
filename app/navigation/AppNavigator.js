@@ -1,8 +1,7 @@
-
 import Icon from "react-native-vector-icons/FontAwesome";
-import React from "react";
-import {View, SafeAreaView, Text, Alert,StyleSheet,Platform,TouchableOpacity,Image,StatusBar} from 'react-native';
-import { Card, Left, Body, Right, Container, Header } from "native-base";
+import React , { Component }from "react";
+import {View, SafeAreaView, AsyncStorage, Text , Alert,StyleSheet,Platform,TouchableOpacity,Image,StatusBar} from 'react-native';
+import {  Header } from "native-base";
 import { createSwitchNavigator, createAppContainer , DrawerItems, createDrawerNavigator, createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 
 import Home from '../screens/home';
@@ -93,16 +92,46 @@ const CustomDrawerContentComponent = props => (
           itemStyle={styles.navItems}
           labelStyle={styles.navItemText}
         />
-        <TouchableOpacity
-         onPress={this._userLogout}>
+         <TouchableOpacity
+          onPress={() =>
+            Alert.alert(
+              "Log out",
+              "Do you want to logout?",
+              [
+                {
+                  text: "Cancel",
+                  onPress: () => {
+                    return null;
+                  }
+                },
+                {
+                  text: "Confirm",
+                  onPress: () => {
+                   
+                    AsyncStorage.clear();
+                    props.navigation.navigate('Login')
+                   
+                  }},
+                ],
+                { cancelable: false }
+              )  
+              }>
           <View style={styles.navItems}>
             <Text style={[styles.navItemText, { margin: 16 }]}>Logout</Text>
           </View>
         </TouchableOpacity>
+        {/* <TouchableOpacity
+         onPress={this._userLogout}>
+          <View style={styles.navItems}>
+            <Text style={[styles.navItemText, { margin: 16 }]}>Logout</Text>
+          </View>
+        </TouchableOpacity> */}
       </SafeAreaView>
    
   </View>
 );
+
+
 
 const DrawerNavigator = createDrawerNavigator({
   Home: { screen: StackNavigator },
@@ -121,10 +150,21 @@ const DrawerNavigator = createDrawerNavigator({
     
 })
 
-const SwitchNavigator = createSwitchNavigator({
-  Home: { screen: DrawerNavigator },
-  Login: { screen: Login },
-});
+export const SwitchNavigator = (switchNavroute = false ) =>{
+  return createAppContainer(createSwitchNavigator(
+  {
+    Home: DrawerNavigator ,
+    Login: { screen: Login },
+  },
+  {
+    initialRouteName: switchNavroute ? 'Home' : 'Login'
+  }
+))
+}
+// const SwitchNavigator = createSwitchNavigator({
+//   Home: { screen: DrawerNavigator },
+//   Login: { screen: Login },
+// });
 
 export default createAppContainer(SwitchNavigator)
 
@@ -167,3 +207,8 @@ const styles = StyleSheet.create({
     borderRadius: 5
   }
 });
+
+
+
+
+
