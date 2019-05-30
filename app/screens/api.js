@@ -1,6 +1,5 @@
 import React from 'react';
-import { FlatList, ActivityIndicator, Text, View  } from 'react-native';
-import {AsyncStorage} from 'react-native';
+import { FlatList, AsyncStorage , ActivityIndicator, TouchableOpacity ,Text, View ,Image , ImageBackground , StyleSheet} from 'react-native';
 
 export default class Api extends React.Component {
 
@@ -9,26 +8,38 @@ export default class Api extends React.Component {
     this.state ={ isLoading: true}
   }
 
-  // componentDidMount(){
-  //   this.getData();
-  //   return fetch('https://facebook.github.io/react-native/movies.json')
-  //     .then((response) => response.json())
-  //     .then((responseJson) => {
+;
 
-  //       this.setState({
-  //         isLoading: false,
-  //         dataSource: responseJson.movies,
-  //       }, function(){
+  renderItem = ({ item }) =>{
+    return(
+      <View>
+            <ImageBackground
+             style={{width: '100%', height: 300 }}
+             source={{uri: 'http:' + item.project_image }}
+                   
+                >
+                  <View style={styles.overlay} />
+                    <Text
+                    style={styles.imageText}
+                    >
+                      { item.name }
+                    </Text>
 
-  //       });
-        
-  //     })
-  //     .catch((error) =>{
-  //       console.error(error);
-  //     });
-  // }
+                    <View style={styles.openView}>
+                        <TouchableOpacity 
+                            style={styles.open}
+                            onPress={() => this.props.navigation.navigate('Projects')}
+                        >
+                            <Text style={styles.openText}> OPEN </Text>
+                        </TouchableOpacity>
+                    </View>
 
-
+            </ImageBackground>
+         
+    </View>
+    )
+    
+  }
 
   async componentDidMount(){
 
@@ -73,7 +84,7 @@ getData = async () => {
     console.log(data)
     console.log(JSON.stringify(data))
     return data;
-        //Your logic
+       
 });
 }
 
@@ -91,7 +102,7 @@ getData = async () => {
       <View style={{flex: 1, paddingTop:20}}>
         <FlatList
           data={this.state.dataSource}
-          renderItem={({item}) => <Text> {item.name}</Text>}
+          renderItem={ this.renderItem }
     
           keyExtractor={({id}, index) => id}
         />
@@ -100,3 +111,53 @@ getData = async () => {
    
   }
 }
+
+
+
+const styles = StyleSheet.create({
+  containerView: {
+      flex: 1,
+      margin: 0
+
+  },
+  image: {
+      flex: 1,
+      height: '35%',
+      width: '100%',
+      position: 'relative', // because it's parent
+      opacity: 0.7,
+      // backgroundColor:'#000',
+      top: 2,
+      left: 2
+  },
+//    overlay: {
+//     ...StyleSheet.absoluteFillObject,
+//     backgroundColor: 'rgba(69,85,117,0.7)',
+//   },
+  imageText: {
+      color: 'white',
+      position: 'absolute',
+      bottom: 0,
+      left: '5%',
+      top: '55%',
+      fontSize: 22
+  },
+  openView:{
+    position: 'absolute',
+    bottom: 0,
+    left: '5%',
+    top: '80%',
+},
+openText:{
+    color: 'white',
+    fontSize: 16,
+    borderRadius: 5,
+    borderWidth: 3,
+    borderColor: '#fff',
+    paddingRight:20,
+    paddingLeft:20,
+    paddingTop:8,
+    paddingBottom:8,
+
+}
+});

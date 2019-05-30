@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Image, Button, TextInput } from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
+import HeaderComponent from '../components/header';
 
 export default class Mytasks extends Component {
   render() {
     return (
+      <View style={styles.containerView}>
+         <HeaderComponent
+            title={"Mytasks"}
+            navigation={this.props.navigation}
+          />   
+     
       <View style={styles.container}>
+
+       
+
         <Collapse style={styles.collapse}>
           <CollapseHeader style={styles.taskHeader}>
             <View>
@@ -95,7 +105,7 @@ export default class Mytasks extends Component {
         </Collapse>
       </View>
 
-
+      </View>
     );
   }
 }
@@ -103,6 +113,11 @@ export default class Mytasks extends Component {
 
 
 const styles = StyleSheet.create({
+  containerView: {
+    flex: 1,
+    margin: 0
+
+},
   container: {
     flex: 1,
     backgroundColor: '#e8e7e7a8',

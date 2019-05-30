@@ -4,7 +4,6 @@ import { TextField } from 'react-native-material-textfield';
 import Dialog, { DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import AsyncStorage from '@react-native-community/async-storage';
 
-const ACCESS_TOKEN = 'access_token';
 
 export default class Login extends Component {
   constructor(props) {
@@ -19,30 +18,7 @@ export default class Login extends Component {
   }
 
 
-  async componentDidMount() {
-    console("Token is",ACCESS_TOKEN)
-    try {
-      const user = await AsyncStorage.getItem(id_token)
-      console.log('user: ', id_token)
-      if (user) {
-        Home()
-      } else {
-        Login()
-      }
-    } catch (err) {
-      console.log('error: ', err)
-      Login()
-    }
-  }
 
-  async _userLogout() {
-    try {
-      await AsyncStorage.removeItem(id_token);
-      Alert.alert("Logout Success!")
-    } catch (error) {
-      console.log('AsyncStorage error: ' + error.message);
-    }
-  }
 
 
   _userLogin = async () => {
@@ -72,7 +48,7 @@ export default class Login extends Component {
             ["X-API-KEY", "k41403aqpiqpn66w7oo50jgivzw2irq0vqmsxmvm"],
             ['isLoggedIn','true']
         ])
-        navigate("Home");
+        navigate("Projects");
          
         //  this.props.navigation.navigate('Home');
         }

@@ -1,56 +1,39 @@
-import React, { Component } from 'react';
-import {AsyncStorage} from 'react-native';
-import { Text, View, ScrollView, ImageBackground, StyleSheet ,TouchableOpacity } from 'react-native';
-import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
+import React from 'react';
+import { FlatList, AsyncStorage , ActivityIndicator, TouchableOpacity ,Text, View ,Image , ImageBackground , StyleSheet} from 'react-native';
+import Icon from "react-native-vector-icons/FontAwesome";
+import HeaderComponent from '../components/header';
+import Loading from '../components/loader';
 
-export default class Projects extends Component {
-
-    _retrieveData= async () => {
-        var DEMO_TOKEN = await AsyncStorage.getItem(id_token);
-        fetch("http://api-dev.ethosapp.com/v3/projects", {
-          method: "GET",
-          headers: {
-            'Authorization': 'Bearer ' + DEMO_TOKEN,
-            'X-API-KEY': 'k41403aqpiqpn66w7oo50jgivzw2irq0vqmsxmvm',
-            'id_token': res.token
-          }
-        })
-        .then((response) => response.text())
-        .then((projects) => { 
-          Alert.alert(
-            "Details:", projects)
-        })
-        .done();
-      }
-
-
-      componentDidMount(){
-        return fetch('http://api-dev.ethosapp.com/v3/projects')
-          .then((response) => response.json())
-          .then((responseJson) => {
+export default class Projects extends React.Component {
     
-            this.setState({pokeList: pokemon.results, loading: false});
-    
-          })
-          .catch((error) =>{
-            console.error(error);
-          });
-      }
-    
-    render() {
-        return (
-            <View style={styles.containerView}>
+  constructor(props){
+    super(props);
+    this.state ={ isLoading: true}
+  }
 
-                <ImageBackground
-                    source={{ uri: 'http://bit.ly/2GfzooV' }}
-                    style={styles.image}
+  
+  renderItem = ({ item }) =>{
+
+   
+
+    return(
+      <View>
+
+
+
+          
+            <ImageBackground style={ styles.image }
+             
+             source={{uri: 'http:' + item.project_image }}
+                   
                 >
+                  <View style={styles.overlay} />
                     <Text
-                        style={styles.imageText}
+                    style={styles.imageText}
                     >
-                        probs notification test
+                      { item.name }
                     </Text>
-                    
+
                     <View style={styles.openView}>
                         <TouchableOpacity 
                             style={styles.open}
@@ -60,54 +43,153 @@ export default class Projects extends Component {
                         </TouchableOpacity>
                     </View>
 
-                </ImageBackground>
+            </ImageBackground>
+         
+    </View>
+    )
+    
+  }
 
-            </View>
-        );
-    }
+  async componentDidMount(){
+
+    
+
+    AsyncStorage.multiGet(['id_token', 'X-API-KEY']).then((data) => {
+      let id_token = data[0][1];
+      let XAPIKEY = data[1][1];
+      console.log(id_token)
+      console.log(XAPIKEY)
+      fetch("http://api-dev.ethosapp.com/v3/projects", {
+        method: "GET",
+        headers: {
+          'Authorization': 'bearer ' + id_token,
+          'X-API-KEY': XAPIKEY,
+        }
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+
+        this.setState({
+          isLoading: false,
+          dataSource: responseJson,
+        }, function(){
+
+        });
+        console.log("value",responseJson)
+      })
+      .catch((error) =>{
+        console.error(error);
+      });
+  });
+    
+
+}
+
+getData = async () => {
+  AsyncStorage.multiGet(['id_token', 'X-API-KEY']).then((data) => {
+    let id_token = data[0][1];
+    let XAPIKEY = data[1][1];
+
+    console.log(id_token)
+    console.log(XAPIKEY)
+    console.log(data)
+    console.log(JSON.stringify(data))
+    return data;
+       
+});
 }
 
 
-const styles = StyleSheet.create({
-    containerView: {
-        flex: 1,
-        margin: 0
+  render(){
+      
 
-    },
-    image: {
-        flex: 1,
-        height: '50%',
-        width: '100%',
-        position: 'relative', // because it's parent
-        top: 2,
-        left: 2
-    },
-    imageText: {
-        fontWeight: 'bold',
-        color: 'white',
-        position: 'absolute',
-        bottom: 0,
-        left: '5%',
-        top: '25%',
-        fontSize: 20
-    },
-    openView:{
-        position: 'absolute',
-        bottom: 0,
-        left: '5%',
-        top: '35%',
-    },
-    openText:{
-        fontWeight: 'bold',
-        color: 'white',
-        fontSize: 16,
-        borderRadius: 5,
-        borderWidth: 3,
-        borderColor: '#fff',
-        paddingRight:20,
-        paddingLeft:20,
-        paddingTop:8,
-        paddingBottom:8,
-
+    if(this.state.isLoading){
+      return(
+        <View style={{flex: 1, padding: 20}}>
+          <ActivityIndicator/>
+          <Loading />
+        </View>
+      )
     }
+    
+    return(
+      <View style={{flex: 1 }}>
+        {/* <View style={{paddingTop: 10, paddingBottom: 10, backgroundColor:'#2289dc'}}>
+                <View style={{flexDirection: 'row', alignItems:'center'}}>
+                <Text style={{ flex: 1,  textAlign: 'center'}}></Text>
+                <Text style={{ flex: 1,color:'#fff',fontWeight:'bold', textAlign: 'center'}}>Projects</Text>
+                <Text style={{ flex: 1, paddingRight:10, textAlign: 'right'}}>
+                <Icon
+                style={{ paddingLeft: 30 }}
+                onPress={() => this.props.navigation.openDrawer()}
+                name="bars"
+                color = '#fff'
+                size={30}
+                />
+                </Text>
+                </View>
+            </View> */}
+             <HeaderComponent
+            title={"Projects"}
+            navigation={this.props.navigation}
+          />
+        <FlatList
+          data={this.state.dataSource}
+          renderItem={ this.renderItem }
+    
+          keyExtractor={({id}, index) => id}
+        />
+      </View>
+    );
+   
+  }
+}
+
+
+
+const styles = StyleSheet.create({
+  containerView: {
+      flex: 1,
+      margin: 0
+
+  },
+
+  image: {
+    width: '100%', 
+    height: 350 , 
+    backgroundColor:'#000', 
+    opacity: 0.8,
+    borderWidth:1,
+    borderColor:'#fff',
+  },
+   overlay: {
+    backgroundColor:'transparent',
+    opacity: 0.6
+  },
+  imageText: {
+      color: 'white',
+      position: 'absolute',
+      bottom: 0,
+      left: '5%',
+      fontSize: 22,
+      marginBottom:'20%'
+  },
+  openView:{
+    position: 'absolute',
+    bottom: 0,
+    left: '5%',
+    marginBottom:'5%'
+},
+openText:{
+    color: 'white',
+    fontSize: 16,
+    borderRadius: 5,
+    borderWidth: 3,
+    borderColor: '#fff',
+    paddingRight:20,
+    paddingLeft:20,
+    paddingTop:8,
+    paddingBottom:8,
+
+}
 });

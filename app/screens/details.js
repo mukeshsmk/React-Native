@@ -1,41 +1,109 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, ImageBackground, StyleSheet ,TouchableOpacity } from 'react-native';
-import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
+import { Text, ActivityIndicator, View, ScrollView, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
+import HeaderComponent from '../components/header';
+import Loading from '../components/loader';
 
 export default class Details extends Component {
-    render() {
-        return (
-            <View style={styles.containerView}>
-
-                <ImageBackground
-                    source={{ uri: 'http://bit.ly/2GfzooV' }}
-                    style={styles.image}
-                >
-                <View style={styles.overlay} />
-                    <Text
-                    style={styles.imageText}
-                    >
-                       probs notification test
-                    </Text>
-                    <Text
-                    style={styles.projectOwner}
-                    >
-                        Project Owner:
-                    </Text>
-                    <Text
-                        style={styles.ownerName}
-                    >
-                        Jagan
-                    </Text>
-                    
-                  
-
-                </ImageBackground>
-
-            </View>
-        );
+    constructor(props) {
+        super(props);
+        this.state = { isLoading: true }
     }
+
+    // renderItem = ({ item }) => {
+    //     return (
+    //         <View>
+    //             <ImageBackground
+    //                 source={{ uri: 'http://bit.ly/2GfzooV' }}
+    //                 style={styles.image}
+    //             >
+    //                 <View style={styles.overlay} />
+    //                 <Text
+    //                     style={styles.imageText}
+    //                 >
+    //                     probs notification test
+    //                 </Text>
+    //                 <Text
+    //                     style={styles.projectOwner}
+    //                 >
+    //                     Project Owner:
+    //                 </Text>
+    //                 <Text
+    //                     style={styles.ownerName}
+    //                 >
+    //                     Jagan
+    //                 </Text>
+
+
+
+    //             </ImageBackground>
+
+    //         </View>
+    //     )
+
+    // }
+
+//     render() {
+
+//         if (this.state.isLoading) {
+//             return (
+//                 <View style={{ flex: 1, padding: 20 }}>
+//                     <ActivityIndicator />
+//                 </View>
+//             )
+//         }
+
+//         return (
+//             <View style={{ flex: 1, paddingTop: 20 }}>
+//                 <FlatList
+//                     data={this.state.dataSource}
+//                     renderItem={this.renderItem}
+
+//                     keyExtractor={({ id }, index) => id}
+//                 />
+//             </View>
+//         );
+
+//     }
+// }
+
+
+render() {
+    return (
+        <View style={styles.containerView}>
+            <HeaderComponent
+            title={"Details"}
+            navigation={this.props.navigation}
+          />   
+            <ImageBackground
+                source={{ uri: 'http://bit.ly/2GfzooV' }}
+                style={styles.image}
+            >
+            <View style={styles.overlay} />
+                <Text
+                style={styles.imageText}
+                >
+                   probs notification test
+                </Text>
+                <Text
+                style={styles.projectOwner}
+                >
+                    Project Owner:
+                </Text>
+                <Text
+                    style={styles.ownerName}
+                >
+                    Jagan
+                </Text>
+                
+              
+
+            </ImageBackground>
+
+        </View>
+    );
 }
+}
+
 
 
 const styles = StyleSheet.create({

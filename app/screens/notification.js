@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import { Text, View, Button , ScrollView, StyleSheet } from 'react-native';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
+import HeaderComponent from '../components/header';
 
 export default class Notification extends Component {
   render() {
     return (
       <ScrollView>
-      <View style={ styles.container }>
+         <View style={ styles.containerView }>
     
+        <HeaderComponent
+          title={"Notification"}
+          navigation={this.props.navigation}
+        /> 
+      <View style={ styles.container }>
+
         <Card style = { styles.cardView }>
           <CardTitle
              title="all media but select only text"
@@ -59,12 +66,18 @@ export default class Notification extends Component {
         </Card>
         
       </View>
+      </View>
       </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  containerView: {
+    flex: 1,
+    margin: 0
+
+},
   container:{
     flex: 1, 
     justifyContent: "center", 

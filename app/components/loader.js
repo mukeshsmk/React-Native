@@ -18,10 +18,10 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
-    opacity: 0.7,
+    opacity: 1,
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
-    backgroundColor: 'black',
+    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
     

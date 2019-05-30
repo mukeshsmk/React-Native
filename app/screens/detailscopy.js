@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, ScrollView, ImageBackground, StyleSheet ,TouchableOpacity } from 'react-native';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
 
-export default class Home extends Component {
+export default class Details extends Component {
     render() {
         return (
             <View style={styles.containerView}>

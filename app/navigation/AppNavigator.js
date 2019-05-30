@@ -4,23 +4,25 @@ import {View, SafeAreaView, AsyncStorage, Text , Alert,StyleSheet,Platform,Touch
 import {  Header } from "native-base";
 import { createSwitchNavigator, createAppContainer , DrawerItems, createDrawerNavigator, createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 
-import Home from '../screens/home';
+import Details from '../screens/details';
 import Login from '../screens/login';
 import Notification from '../screens/notification';
-import Screen2 from '../screens/screen2';
-import Screen3 from '../screens/screen3';
+
+import Projects from '../screens/projects';
+import Moderator from '../screens/moderator';
+import Workspaces from '../screens/workspaces';
 import Mytasks from '../screens/mytasks';
 
 const TabNavigator = createBottomTabNavigator({
-  Home: {
-      screen: Home,
+  Details: {
+      screen: Details,
       navigationOptions: {
           tabBarLabel: "Home",
           tabBarIcon: ({ tintColor }) => <Icon name={"home"} size={20} color={tintColor} />
       }
   },
-  Screen2: {
-      screen: Screen2,
+  Moderator: {
+      screen: Moderator,
       navigationOptions: {
           tabBarLabel: "Moderator",
           tabBarIcon: ({ tintColor }) => <Icon name={"users-medical"} size={20} color={tintColor} />
@@ -33,8 +35,8 @@ const TabNavigator = createBottomTabNavigator({
           tabBarIcon: ({ tintColor }) => <Icon name={"bell"} size={20} color={tintColor} />
       }
   },
-  Screen3: {
-      screen: Screen3,
+  Workspaces: {
+      screen: Workspaces,
       navigationOptions: {
           tabBarLabel: "Workspaces",
           tabBarIcon: ({ tintColor }) => <Icon name={"home"} size={20} color={tintColor} />
@@ -47,36 +49,18 @@ const TabNavigator = createBottomTabNavigator({
           tabBarIcon: ({ tintColor }) => <Icon name={"home"} size={20} color={tintColor} />
       }
   }
-},
-{
-  navigationOptions: ({ navigation }) => {
-    const { routeName } = navigation.state.routes[navigation.state.index];
-    return {
-      headerTitle: routeName
-    };
-  }
 }
 );
 
 const StackNavigator = createStackNavigator({
   TabNavigator:TabNavigator
-},
-{
-  defaultNavigationOptions: ({ navigation }) => {
-    return {
-      headerLeft: (
-        <Icon
-          style={{ paddingLeft: 10 }}
-          onPress={() => navigation.openDrawer()}
-          name="bars"
-          size={30}
-        />
-      )
-    };
+},{
+  headerMode: 'none',
+  navigationOptions: {
+    headerVisible: false,
   }
-}
+ }
 );
-
 const CustomDrawerContentComponent = props => (
   <View style={{ flex: 1 }}>
    
@@ -120,12 +104,6 @@ const CustomDrawerContentComponent = props => (
             <Text style={[styles.navItemText, { margin: 16 }]}>Logout</Text>
           </View>
         </TouchableOpacity>
-        {/* <TouchableOpacity
-         onPress={this._userLogout}>
-          <View style={styles.navItems}>
-            <Text style={[styles.navItemText, { margin: 16 }]}>Logout</Text>
-          </View>
-        </TouchableOpacity> */}
       </SafeAreaView>
    
   </View>
@@ -134,14 +112,18 @@ const CustomDrawerContentComponent = props => (
 
 
 const DrawerNavigator = createDrawerNavigator({
-  Home: { screen: StackNavigator },
-  Login: { screen: Login },
+  Details: { screen: StackNavigator },
+  Projects :{screen: Projects },
   Notification: { screen: Notification },
-  Screen2: { screen: Screen2 },
-  Screen3: { screen: Screen3 },
+  Moderator: { screen: Moderator },
+  Workspaces: { screen: Workspaces },
   Mytasks: { screen: Mytasks }},
   {
-    drawerPosition: "Right",
+    initialRouteName : 'Projects'
+  },
+  {
+    
+    drawerPosition: "right",
     drawerOpenRoute: "DrawerOpen",
     contentComponent: CustomDrawerContentComponent,
     drawerCloseRoute: "DrawerClose",
@@ -153,18 +135,14 @@ const DrawerNavigator = createDrawerNavigator({
 export const SwitchNavigator = (switchNavroute = false ) =>{
   return createAppContainer(createSwitchNavigator(
   {
-    Home: DrawerNavigator ,
+    Details: DrawerNavigator ,
     Login: { screen: Login },
   },
   {
-    initialRouteName: switchNavroute ? 'Home' : 'Login'
+    initialRouteName: switchNavroute ? 'Details' : 'Login'
   }
 ))
 }
-// const SwitchNavigator = createSwitchNavigator({
-//   Home: { screen: DrawerNavigator },
-//   Login: { screen: Login },
-// });
 
 export default createAppContainer(SwitchNavigator)
 
@@ -180,7 +158,7 @@ const styles = StyleSheet.create({
   },
   proDetails: {
     marginTop: 0,
-    height: 150,
+    height: 120,
     color: "white"
   },
   proPic: {
