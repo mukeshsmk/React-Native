@@ -7,7 +7,7 @@ export default class Moderator extends Component {
     return (
       <View style={styles.containerView}>
       <HeaderComponent
-         title={"Workspaces"}
+         title={"Moderator"}
          navigation={this.props.navigation}
        />   
         <Text> Moderator</Text>

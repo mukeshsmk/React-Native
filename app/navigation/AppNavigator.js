@@ -25,7 +25,7 @@ const TabNavigator = createBottomTabNavigator({
       screen: Moderator,
       navigationOptions: {
           tabBarLabel: "Moderator",
-          tabBarIcon: ({ tintColor }) => <Icon name={"users-medical"} size={20} color={tintColor} />
+          tabBarIcon: ({ tintColor }) => <Icon name={"comment"} size={20} color={tintColor} />
       }
   },
   Notification: {
@@ -39,14 +39,14 @@ const TabNavigator = createBottomTabNavigator({
       screen: Workspaces,
       navigationOptions: {
           tabBarLabel: "Workspaces",
-          tabBarIcon: ({ tintColor }) => <Icon name={"home"} size={20} color={tintColor} />
+          tabBarIcon: ({ tintColor }) => <Icon name={"comments"} size={20} color={tintColor} />
       }
   },
   Mytasks: {
       screen: Mytasks,
       navigationOptions: {
           tabBarLabel: "My Tasks",
-          tabBarIcon: ({ tintColor }) => <Icon name={"home"} size={20} color={tintColor} />
+          tabBarIcon: ({ tintColor }) => <Icon name={"tasks"} size={20} color={tintColor} />
       }
   }
 }
@@ -61,6 +61,7 @@ const StackNavigator = createStackNavigator({
   }
  }
 );
+
 const CustomDrawerContentComponent = props => (
   <View style={{ flex: 1 }}>
    
@@ -103,7 +104,11 @@ const CustomDrawerContentComponent = props => (
           <View style={styles.navItems}>
             <Text style={[styles.navItemText, { margin: 16 }]}>Logout</Text>
           </View>
+         
         </TouchableOpacity>
+        <View style={styles.footerItems}>
+            <Text style={[styles.footerItemText, { margin: 16 }]}>Ethnographic Observation System</Text>
+          </View>
       </SafeAreaView>
    
   </View>
@@ -111,25 +116,38 @@ const CustomDrawerContentComponent = props => (
 
 
 
+
+
+
 const DrawerNavigator = createDrawerNavigator({
-  Details: { screen: StackNavigator },
-  Projects :{screen: Projects },
-  Notification: { screen: Notification },
-  Moderator: { screen: Moderator },
-  Workspaces: { screen: Workspaces },
-  Mytasks: { screen: Mytasks }},
-  {
-    initialRouteName : 'Projects'
+  Details : { screen: StackNavigator },
+  Projects : {screen: Projects },
+  Profile : { screen: Notification },
+  Langauges : { screen: Moderator },
+  TechSupport: { screen: Workspaces },
   },
   {
-    
-    drawerPosition: "right",
+    initialRouteName : 'Projects',
     drawerOpenRoute: "DrawerOpen",
     contentComponent: CustomDrawerContentComponent,
     drawerCloseRoute: "DrawerClose",
     drawerToggleRoute: "DrawerToggle",
-    drawerWidth: 300
+    drawerWidth: 330,
+    contentOptions: {
+      activeTintColor: 'none',
+      itemsContainerStyle: {
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      iconContainerStyle: {
     
+      },
+      itemStyle: {
+        flexDirection: 'row-reverse',
+       
+      }
+    },
+    drawerPosition: 'right'
 })
 
 export const SwitchNavigator = (switchNavroute = false ) =>{
@@ -144,22 +162,16 @@ export const SwitchNavigator = (switchNavroute = false ) =>{
 ))
 }
 
+
 export default createAppContainer(SwitchNavigator)
 
 const styles = StyleSheet.create({
-  name: {
-    fontSize: 18,
-    color: "white",
-    textAlign: "left"
-  },
-  city: {
-    fontSize: 12,
-    color: "white"
-  },
   proDetails: {
     marginTop: 0,
-    height: 120,
-    color: "white"
+    height: 150,
+    color: "white",
+    backgroundColor:'#fff',
+    borderBottomWidth: 0,
   },
   proPic: {
     height: 130,
@@ -168,6 +180,8 @@ const styles = StyleSheet.create({
     marginTop: "2%"
   },
   navItems: {
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingTop: 5,
     paddingBottom: 5,
     borderBottomWidth: 1,
@@ -178,15 +192,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "300"
   },
-  linearGradient: {
-    flex: 1,
-    paddingLeft: 0,
-    paddingRight: 0,
-    borderRadius: 5
+  footerItems:{
+    justifyContent: 'center',
+    alignItems: 'center',
+   
+    marginTop: '50%',
+    // top: '135%',
   }
 });
-
-
-
-
 

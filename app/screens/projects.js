@@ -27,7 +27,7 @@ export default class Projects extends React.Component {
              source={{uri: 'http:' + item.project_image }}
                    
                 >
-                  <View style={styles.overlay} />
+                  <View style={styles.overlay}>
                     <Text
                     style={styles.imageText}
                     >
@@ -42,7 +42,7 @@ export default class Projects extends React.Component {
                             <Text style={styles.openText}> OPEN </Text>
                         </TouchableOpacity>
                     </View>
-
+                  </View>
             </ImageBackground>
          
     </View>
@@ -155,16 +155,17 @@ const styles = StyleSheet.create({
   },
 
   image: {
+    flex:1,
     width: '100%', 
     height: 350 , 
     backgroundColor:'#000', 
     opacity: 0.8,
     borderWidth:1,
-    borderColor:'#fff',
+    borderColor:'#ffffff70',
   },
    overlay: {
-    backgroundColor:'transparent',
-    opacity: 0.6
+    flex:1,
+    backgroundColor: 'rgba(0,0,0,0.8)'
   },
   imageText: {
       color: 'white',

@@ -78,7 +78,7 @@ render() {
                 source={{ uri: 'http://bit.ly/2GfzooV' }}
                 style={styles.image}
             >
-            <View style={styles.overlay} />
+            <View style={styles.overlay}>
                 <Text
                 style={styles.imageText}
                 >
@@ -96,7 +96,7 @@ render() {
                 </Text>
                 
               
-
+            </View>         
             </ImageBackground>
 
         </View>

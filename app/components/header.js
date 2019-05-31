@@ -30,18 +30,18 @@ class HeaderComponent extends Component {
     }
     return (
       <Header style={styles.drawerHeader}>
-        <Left style={{ flexShrink: 1 }} >
-          {button}
-        </Left>
+       
         <Body
           style={{
             flexGrow: 3,
-            justifyContent: "center"
+            justifyContent: "center",
           }}
         >
           <Title style={styles.title}>{this.props.title}</Title>
         </Body>
-       
+        <Right style={{ flexShrink: 1 }} >
+          {button}
+        </Right>
       </Header>
     );
   }
@@ -69,9 +69,9 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   title: {
-    fontSize: 14,
+    fontSize: 18,
     textAlign: "center",
     color: "white",
-    marginLeft:'40%'
+    marginLeft:'55%'
   }
 });

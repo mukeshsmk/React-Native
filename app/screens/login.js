@@ -3,7 +3,7 @@ import { Platform, Alert , TouchableOpacity, StyleSheet, Image, Button, TextInpu
 import { TextField } from 'react-native-material-textfield';
 import Dialog, { DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 export default class Login extends Component {
   constructor(props) {
@@ -39,7 +39,7 @@ export default class Login extends Component {
       .then((res) => {
         console.log(res)
         if (typeof (res.message) != "undefined") {
-          Alert.alert("Error", "Error: " + res.message);
+          Alert.alert("Ethos", "Invalid Email or Passwod ");
         }
         else {
         
@@ -107,11 +107,16 @@ export default class Login extends Component {
             }}
             dialogTitle={<DialogTitle title="Forget Password" />}
           >
-            <DialogContent>
+             <Icon name="times-circle"  style={styles.menuIcon}
+               onPress={() => {
+                this.setState({ visible: false });
+              }}
+              />
+            <DialogContent style = { styles.DialogView}>
               <Text style={styles.dialogboxText}>
-                Enter the email
+                Please enter the email
               </Text>
-              <View style={styles.inputView}>
+              <View style={styles.foegotinputView}>
                 <TextField
                   label='Email'
                   onChangeText={(email) => this.setState({ email })}
@@ -160,7 +165,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logoImage: {
-    width: '30%',
+    width: '35%',
     height: '25%',
     margin: 0,
   },
@@ -187,20 +192,36 @@ const styles = StyleSheet.create({
   forgotView: {
     alignItems: 'center',
     marginTop: 10,
-    marginBottom: 20
+    marginBottom: 20,
+   
+  },
+  foegotinputView:{
+    backgroundColor: '#f1f1f1',
+    padding:10,
+    margin:10, 
+    borderRadius: 10,
   },
   forgot: {
     color: '#6ca8c7',
     margin: 20,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  menuIcon:{
+    position: 'relative',
+    bottom: 0,
+    left: '70%',
+    bottom: '15%',
+    fontSize: 32,
+    color:'#2289dc',
+    marginRight: 5,
   }
   ,
   conditionView: {
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 50,
-    marginLeft: 70,
+    marginLeft: 50,
   },
   dialogbox: {
     width: 100,
@@ -216,15 +237,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   reset: {
-    width: "35%",
+    width: "70%",
     margin: 0,
     backgroundColor: '#2ba1d0',
     padding: 10,
     color: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 30,
   },
   resetText: {
     color: '#fff',
-    paddingLeft: 20
   },
 });
