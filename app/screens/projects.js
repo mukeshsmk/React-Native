@@ -9,19 +9,15 @@ export default class Projects extends React.Component {
   constructor(props){
     super(props);
     this.state ={ isLoading: true}
+    
   }
-
   
   renderItem = ({ item }) =>{
 
-   
+    const { navigate } = this.props.navigation
 
     return(
-      <View>
-
-
-
-          
+      <View>          
             <ImageBackground style={ styles.image }
              
              source={{uri: 'http:' + item.project_image }}
@@ -37,8 +33,8 @@ export default class Projects extends React.Component {
                     <View style={styles.openView}>
                         <TouchableOpacity 
                             style={styles.open}
-                            onPress={(item) => this.props.navigation.navigate ('Details',{ _id: item.id })}
-                        >
+                            onPress={() => navigate('Details')} >
+                        
                             <Text style={styles.openText}> OPEN </Text>
                         </TouchableOpacity>
                     </View>

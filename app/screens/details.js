@@ -7,9 +7,9 @@ export default class Details extends Component {
     constructor(props) {
         super(props);
         this.state = { isLoading: true }
+    
         }
-
-
+        
     async componentDidMount(){
 
        
@@ -62,9 +62,8 @@ export default class Details extends Component {
     }
 
     renderItem = ({ item }) => {
-        const { navigation } = this.props;
-        const itemId = navigation.getParam('itemId', 'NO-ID');
-        const otherParam = navigation.getParam('otherParam', 'some default value');
+       
+       
 
 
         return (
