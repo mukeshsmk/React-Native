@@ -7,21 +7,24 @@ export default class Details extends Component {
     constructor(props) {
         super(props);
         this.state = { isLoading: true }
-    
-        }
         
+        }
+
     async componentDidMount(){
 
        
 
         AsyncStorage.multiGet(['id_token', 'X-API-KEY']).then((data) => {
           
-         
+            const { navigation } = this.props;
+            const id = navigation.getParam('_id');
+            console.log("id",id )
+            
           let id_token = data[0][1];
           let XAPIKEY = data[1][1];
           console.log(id_token)
           console.log(XAPIKEY)
-          fetch("http://api-dev.ethosapp.com/v3/projects" ,  {
+          fetch("http://api-dev.ethosapp.com/v3/projects/" + id ,  {
             method: "GET",
             headers: {
               'Authorization': 'bearer ' + id_token,
@@ -37,7 +40,7 @@ export default class Details extends Component {
             }, function(){
     
             });
-            console.log("value",responseJson)
+            console.log("data",responseJson)
           })
           .catch((error) =>{
             console.error(error);
@@ -47,26 +50,14 @@ export default class Details extends Component {
     
     }
     
-    getData = async () => {
-      AsyncStorage.multiGet(['id_token', 'X-API-KEY']).then((data) => {
-        let id_token = data[0][1];
-        let XAPIKEY = data[1][1];
-    
-        console.log(id_token)
-        console.log(XAPIKEY)
-        console.log(data)
-        console.log(JSON.stringify(data))
-        return data;
-           
-    });
+    componentDidUpdate(prevProps, prevState) {
+        
+        this.componentDidMount();
     }
-
     renderItem = ({ item }) => {
        
-       
-
-
         return (
+                      
             <View>
                 <ImageBackground style={styles.image}
                         source={{ uri: 'http://bit.ly/2GfzooV' }}
@@ -117,8 +108,7 @@ export default class Details extends Component {
 
 
 render() {
-    const { params } = this.props.navigation.state;
-    console.log( params )
+   
     return (
         <View style={styles.containerView}>
             <HeaderComponent

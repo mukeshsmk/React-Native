@@ -14,7 +14,7 @@ import Workspaces from '../screens/workspaces';
 import Mytasks from '../screens/mytasks';
 
 const TabNavigator = createBottomTabNavigator({
-  Details: {
+  DetailsTab: {
       screen: Details,
       navigationOptions: {
           tabBarLabel: "Home",

@@ -3,6 +3,7 @@ import { FlatList, AsyncStorage , ActivityIndicator, TouchableOpacity ,Text, Vie
 import Icon from "react-native-vector-icons/FontAwesome";
 import HeaderComponent from '../components/header';
 import Loading from '../components/loader';
+import { NavigationActions } from 'react-navigation';
 
 export default class Projects extends React.Component {
     
@@ -10,6 +11,16 @@ export default class Projects extends React.Component {
     super(props);
     this.state ={ isLoading: true}
     
+  }
+  test = (id) =>{
+    const { navigate } = this.props.navigation;
+    navigate({
+      routeName: 'DetailsTab',
+      params: {
+          _id: id,
+
+      }
+  })
   }
   
   renderItem = ({ item }) =>{
@@ -33,7 +44,7 @@ export default class Projects extends React.Component {
                     <View style={styles.openView}>
                         <TouchableOpacity 
                             style={styles.open}
-                            onPress={() => navigate('Details')} >
+                            onPress={() => this.test(item.id) }>
                         
                             <Text style={styles.openText}> OPEN </Text>
                         </TouchableOpacity>
