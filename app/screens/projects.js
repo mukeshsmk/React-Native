@@ -37,7 +37,7 @@ export default class Projects extends React.Component {
                     <View style={styles.openView}>
                         <TouchableOpacity 
                             style={styles.open}
-                            onPress={() => this.props.navigation.navigate('Details')}
+                            onPress={(item) => this.props.navigation.navigate ('Details',{ _id: item.id })}
                         >
                             <Text style={styles.openText}> OPEN </Text>
                         </TouchableOpacity>
@@ -114,21 +114,7 @@ getData = async () => {
     
     return(
       <View style={{flex: 1 }}>
-        {/* <View style={{paddingTop: 10, paddingBottom: 10, backgroundColor:'#2289dc'}}>
-                <View style={{flexDirection: 'row', alignItems:'center'}}>
-                <Text style={{ flex: 1,  textAlign: 'center'}}></Text>
-                <Text style={{ flex: 1,color:'#fff',fontWeight:'bold', textAlign: 'center'}}>Projects</Text>
-                <Text style={{ flex: 1, paddingRight:10, textAlign: 'right'}}>
-                <Icon
-                style={{ paddingLeft: 30 }}
-                onPress={() => this.props.navigation.openDrawer()}
-                name="bars"
-                color = '#fff'
-                size={30}
-                />
-                </Text>
-                </View>
-            </View> */}
+  
              <HeaderComponent
             title={"Projects"}
             navigation={this.props.navigation}

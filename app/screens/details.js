@@ -1,46 +1,96 @@
 import React, { Component } from 'react';
-import { Text, ActivityIndicator, View, ScrollView, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
+import { FlatList, AsyncStorage , ActivityIndicator, TouchableOpacity ,Text, View ,Image , ImageBackground , StyleSheet} from 'react-native';
 import HeaderComponent from '../components/header';
 import Loading from '../components/loader';
-
+ 
 export default class Details extends Component {
     constructor(props) {
         super(props);
         this.state = { isLoading: true }
+        }
+
+
+    async componentDidMount(){
+
+       
+
+        AsyncStorage.multiGet(['id_token', 'X-API-KEY']).then((data) => {
+          
+         
+          let id_token = data[0][1];
+          let XAPIKEY = data[1][1];
+          console.log(id_token)
+          console.log(XAPIKEY)
+          fetch("http://api-dev.ethosapp.com/v3/projects" ,  {
+            method: "GET",
+            headers: {
+              'Authorization': 'bearer ' + id_token,
+              'X-API-KEY': XAPIKEY,
+            }
+          })
+          .then((response) => response.json())
+          .then((responseJson) => {
+    
+            this.setState({
+              isLoading: false,
+              dataSource: responseJson,
+            }, function(){
+    
+            });
+            console.log("value",responseJson)
+          })
+          .catch((error) =>{
+            console.error(error);
+          });
+      });
+        
+    
+    }
+    
+    getData = async () => {
+      AsyncStorage.multiGet(['id_token', 'X-API-KEY']).then((data) => {
+        let id_token = data[0][1];
+        let XAPIKEY = data[1][1];
+    
+        console.log(id_token)
+        console.log(XAPIKEY)
+        console.log(data)
+        console.log(JSON.stringify(data))
+        return data;
+           
+    });
     }
 
-    // renderItem = ({ item }) => {
-    //     return (
-    //         <View>
-    //             <ImageBackground
-    //                 source={{ uri: 'http://bit.ly/2GfzooV' }}
-    //                 style={styles.image}
-    //             >
-    //                 <View style={styles.overlay} />
-    //                 <Text
-    //                     style={styles.imageText}
-    //                 >
-    //                     probs notification test
-    //                 </Text>
-    //                 <Text
-    //                     style={styles.projectOwner}
-    //                 >
-    //                     Project Owner:
-    //                 </Text>
-    //                 <Text
-    //                     style={styles.ownerName}
-    //                 >
-    //                     Jagan
-    //                 </Text>
+    renderItem = ({ item }) => {
+        const { navigation } = this.props;
+        const itemId = navigation.getParam('itemId', 'NO-ID');
+        const otherParam = navigation.getParam('otherParam', 'some default value');
 
 
+        return (
+            <View>
+                <ImageBackground style={styles.image}
+                        source={{ uri: 'http://bit.ly/2GfzooV' }}
+                   
+                >
+                    <View style={styles.overlay}>
+                    <Text>Details Screen</Text>
+                    <Text>itemId: {JSON.stringify(itemId)}</Text>
+                    <Text>otherParam: {JSON.stringify(otherParam)}</Text>
+                    <Text
+                        style={styles.ownerName}
+                    >
+                        Jagan
+                    </Text>
 
-    //             </ImageBackground>
+                </View>
 
-    //         </View>
-    //     )
+                </ImageBackground>
 
-    // }
+            </View>
+        )
+
+    }
 
 //     render() {
 
@@ -68,6 +118,8 @@ export default class Details extends Component {
 
 
 render() {
+    const { params } = this.props.navigation.state;
+    console.log( params )
     return (
         <View style={styles.containerView}>
             <HeaderComponent
@@ -114,7 +166,7 @@ const styles = StyleSheet.create({
     },
     image: {
         flex: 1,
-        height: '35%',
+        height: '30%',
         width: '100%',
         position: 'relative', // because it's parent
         opacity: 0.7,
@@ -122,10 +174,10 @@ const styles = StyleSheet.create({
         top: 2,
         left: 2
     },
-//    overlay: {
-//     ...StyleSheet.absoluteFillObject,
-//     backgroundColor: 'rgba(69,85,117,0.7)',
-//   },
+   overlay: {
+    flex:1,
+    backgroundColor: 'rgba(0,0,0,0.8)'
+  },
     imageText: {
         color: 'white',
         position: 'absolute',
