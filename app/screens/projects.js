@@ -25,13 +25,18 @@ export default class Projects extends React.Component {
   
   renderItem = ({ item }) =>{
 
-    const { navigate } = this.props.navigation
-
+ var  image = item.project_image;
+  if (image ==  "//d30qdikvwvm498.cloudfront.net" ){
+      image = "//11m5ki43y82budjol1gjvv5s-wpengine.netdna-ssl.com/wp-content/uploads/2017/04/mobile-app-testing.jpg";
+  }
+  else{
+    image;
+  }
     return(
       <View>          
             <ImageBackground style={ styles.image }
              
-             source={{uri: 'http:' + item.project_image }}
+             source={{uri: 'http:' + image }}
                    
                 >
                   <View style={styles.overlay}>
@@ -150,7 +155,7 @@ const styles = StyleSheet.create({
   image: {
     flex:1,
     width: '100%', 
-    height: 350 , 
+    height: 300 , 
     backgroundColor:'#000', 
     opacity: 0.8,
     borderWidth:1,
@@ -158,7 +163,7 @@ const styles = StyleSheet.create({
   },
    overlay: {
     flex:1,
-    backgroundColor: 'rgba(0,0,0,0.8)'
+    backgroundColor: 'rgba(0,0,0,0.5)'
   },
   imageText: {
       color: 'white',

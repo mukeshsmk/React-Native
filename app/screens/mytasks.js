@@ -2,8 +2,16 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Image, Button, TextInput } from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
 import HeaderComponent from '../components/header';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 export default class Mytasks extends Component {
+  constructor() {
+    super();
+  
+  }
+ 
+
+
   render() {
     return (
       <View style={styles.containerView}>
@@ -20,6 +28,8 @@ export default class Mytasks extends Component {
           <CollapseHeader style={styles.taskHeader}>
             <View>
               <Text style={styles.taskName}>test</Text>
+              <Icon style={styles.upIcon} name="chevron-down" />
+              
               <Text style={styles.taskEntry}>Number of Entries : 1</Text>
             </View>
           </CollapseHeader>
@@ -122,6 +132,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#e8e7e7a8',
     padding: 15,
+  },
+  upIcon:{
+    fontSize:16,
+    textAlign: 'right',
+    
   },
   collapse: {
     borderWidth: 1,

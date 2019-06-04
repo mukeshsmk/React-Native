@@ -70,10 +70,14 @@ export default class Login extends Component {
         <View style={styles.inputView}>
           <TextField
             label='Email'
+            keyboardType='email-address'
+            autoCapitalize="none"
+            autoCorrect={false}
             onChangeText={(email) => this.setState({ email })}
           />
           <TextField
             label='Password'
+            secureTextEntry={true}
             onChangeText={(password) => this.setState({ password })}
           />
         </View>
@@ -118,7 +122,10 @@ export default class Login extends Component {
               </Text>
               <View style={styles.foegotinputView}>
                 <TextField
-                  label='Email'
+                 label='Email'
+                 keyboardType='email-address'
+                 autoCapitalize="none"
+                 autoCorrect={false}
                   onChangeText={(email) => this.setState({ email })}
                 />
               </View>
