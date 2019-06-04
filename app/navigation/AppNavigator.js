@@ -12,6 +12,9 @@ import Projects from '../screens/projects';
 import Moderator from '../screens/moderator';
 import Workspaces from '../screens/workspaces';
 import Mytasks from '../screens/mytasks';
+import Profile from '../screens/profile';
+import Changepassword from '../screens/changepassword';
+import Servey from '../screens/servey';
 
 const TabNavigator = createBottomTabNavigator({
   DetailsTab: {
@@ -57,7 +60,7 @@ const StackNavigator = createStackNavigator({
 },{
   headerMode: 'none',
   navigationOptions: {
-    headerVisible: false,
+  headerVisible: false,
   }
  }
 );
@@ -122,7 +125,8 @@ const CustomDrawerContentComponent = props => (
 const DrawerNavigator = createDrawerNavigator({
   Details : { screen: StackNavigator },
   Projects : {screen: Projects },
-  Profile : { screen: Notification },
+  Profile : { screen: Profile },
+  Servey : { screen: Servey },
   Langauges : { screen: Moderator },
   TechSupport: { screen: Workspaces },
   },

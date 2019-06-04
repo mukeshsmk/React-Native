@@ -66,10 +66,12 @@ export default class Projects extends React.Component {
 
     
 
-    AsyncStorage.multiGet(['id_token', 'X-API-KEY']).then((data) => {
+    AsyncStorage.multiGet(['id_token', 'user_id','X-API-KEY']).then((data) => {
       let id_token = data[0][1];
-      let XAPIKEY = data[1][1];
+      let user_id = data[1][1];
+      let XAPIKEY = data[2][1];
       console.log(id_token)
+      console.log(user_id);
       console.log(XAPIKEY)
       fetch("http://api-dev.ethosapp.com/v3/projects", {
         method: "GET",
@@ -93,24 +95,7 @@ export default class Projects extends React.Component {
         console.error(error);
       });
   });
-    
-
 }
-
-getData = async () => {
-  AsyncStorage.multiGet(['id_token', 'X-API-KEY']).then((data) => {
-    let id_token = data[0][1];
-    let XAPIKEY = data[1][1];
-
-    console.log(id_token)
-    console.log(XAPIKEY)
-    console.log(data)
-    console.log(JSON.stringify(data))
-    return data;
-       
-});
-}
-
 
   render(){
       

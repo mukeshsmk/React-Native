@@ -45,6 +45,7 @@ export default class Login extends Component {
         
           AsyncStorage.multiSet([
             ["id_token",  res.token],
+            ["user_id", res.id],
             ["X-API-KEY", "k41403aqpiqpn66w7oo50jgivzw2irq0vqmsxmvm"],
             ['isLoggedIn','true']
         ])

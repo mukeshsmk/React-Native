@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FlatList, AsyncStorage, ActivityIndicator, TouchableOpacity, Text, View, Image, ImageBackground, StyleSheet } from 'react-native';
 import HeaderComponent from '../components/header';
 import Loading from '../components/loader';
-import {WebView} from 'react-native';
+import { WebView } from 'react-native-webview';
 
 export default class Details extends Component {
     constructor(props) {
@@ -113,15 +113,12 @@ export default class Details extends Component {
 
                     </ImageBackground>
 
-                    <View  style={{ flex: 1 }}>
-                    {/* <WebView html={ data.description } /> */}
-                    </View>
-
-                    {/* <View  style={{ flex: 1 }}>
-                        <WebView                      
-                            source={{html: data.description }}
-                        />
-                    </View> */}
+<View style={{ flex: 1 }}>
+ <WebView
+                        source={{html: data.description }}
+                        />  
+</View>
+                                        
 
                 </View>
             );
@@ -139,12 +136,13 @@ const styles = StyleSheet.create({
     image: {
         flex:1,
         width: '100%', 
-        height: '70%' , 
+        height: '60%' , 
         borderWidth:1,
         borderColor:'#ffffff70',
     },
     overlay: {
-        flex: 1,
+        width: '100%', 
+        height: '60%' , 
         backgroundColor: 'rgba(0,0,0,0.5)'
     },
     imageText: {
@@ -153,13 +151,13 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: '5%',
         top: '15%',
-        fontSize: 36
+        fontSize: 32
     },
     projectOwner: {
         position: 'absolute',
         bottom: 0,
         left: '5%',
-        top: '45%',
+        top: '65%',
         color: 'white',
         fontSize: 22,
     },
@@ -167,11 +165,13 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         left: '5%',
-        top: '55%',
+        top: '80%',
         color: 'white',
         fontSize: 16,
     },
-    description:{
-        color: '#000', 
-    }
+    // description:{
+    //     color: '#000', 
+    //     flex: 1,
+    //     margin: 0
+    // }
 });
