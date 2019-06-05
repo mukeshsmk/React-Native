@@ -113,11 +113,11 @@ export default class Details extends Component {
 
                     </ImageBackground>
 
-<View style={{ flex: 1 }}>
- <WebView
-                        source={{html: data.description }}
-                        />  
-</View>
+                        <View style={{ flex: 1 }}>
+                            <WebView   style={ styles.description }
+                            source={{html: data.description }}
+                            />  
+                        </View>
                                         
 
                 </View>
@@ -169,9 +169,10 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 16,
     },
-    // description:{
-    //     color: '#000', 
-    //     flex: 1,
-    //     margin: 0
-    // }
+    description:{
+        color: '#000', 
+        flex: 1,
+        margin: 0,
+        fontSize: 16,
+    }
 });
