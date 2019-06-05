@@ -6,13 +6,22 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 export default class Mytasks extends Component {
   constructor() {
-    super();
-  
+    super()
+    this.state={
+     showMe:true
+    }
   }
  
+  _onPress()
+{
+  this.setState({
+    showMe:!this.state.showMe
+  })
+}
 
 
   render() {
+    
     return (
       <View style={styles.containerView}>
          <HeaderComponent
@@ -22,14 +31,19 @@ export default class Mytasks extends Component {
      
       <View style={styles.container}>
 
-       
+        
+
+        <Text onPress = {()=> this._onPress()}>Click Me</Text>
 
         <Collapse style={styles.collapse}>
           <CollapseHeader style={styles.taskHeader}>
             <View>
               <Text style={styles.taskName}>test</Text>
+              {
+              this.state.showMe?
               <Icon style={styles.upIcon} name="chevron-down" />
-              
+              : <Icon style={styles.upIcon} name="chevron-up"/>
+              }
               <Text style={styles.taskEntry}>Number of Entries : 1</Text>
             </View>
           </CollapseHeader>

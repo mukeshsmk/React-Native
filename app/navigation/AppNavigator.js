@@ -15,6 +15,7 @@ import Mytasks from '../screens/mytasks';
 import Profile from '../screens/profile';
 import Changepassword from '../screens/changepassword';
 import Servey from '../screens/servey';
+import Chat from '../screens/chat';
 
 const TabNavigator = createBottomTabNavigator({
   DetailsTab: {
@@ -127,6 +128,7 @@ const DrawerNavigator = createDrawerNavigator({
   Projects : {screen: Projects },
   Profile : { screen: Profile },
   Servey : { screen: Servey },
+  Chat : { screen : Chat },
   Langauges : { screen: Moderator },
   TechSupport: { screen: Workspaces },
   },
