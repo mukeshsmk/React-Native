@@ -3,7 +3,7 @@ import { Text, View , StyleSheet, TouchableOpacity , Button ,TextInput } from 'r
 import HeaderComponent from '../components/header';
 import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
 
-export default class Servey extends Component {
+export default class Survey extends Component {
 
   constructor(props){
     super(props);

@@ -1,50 +1,125 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, Image, Button, TextInput } from 'react-native';
+import { ScrollView, FlatList, AsyncStorage, ActivityIndicator, TouchableOpacity, Text, View, Image, StyleSheet } from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
 import HeaderComponent from '../components/header';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 export default class Mytasks extends Component {
+
+
   constructor() {
     super()
-    this.state={
-     showMe:true
+    this.state = {
+      showMe: true,
+      id: null,
+      dataSource: null,
+      isLoading: true
     }
   }
+
+  _onPress() {
+    this.setState({
+      showMe: !this.state.showMe
+    })
+  }
+
  
-  _onPress()
-{
-  this.setState({
-    showMe:!this.state.showMe
-  })
+  async componentDidMount() {
+
+
+    AsyncStorage.multiGet(['id_token', 'X-API-KEY','Project_id']).then((data) => {
+
+        const { navigation } = this.props;
+        const id = navigation.getParam('_id');
+
+      
+        let id_token = data[0][1];
+        let XAPIKEY = data[1][1];
+        let Project_id = data[2][1];
+        console.log('id',id);
+        fetch("http://api-dev.ethosapp.com/v3/projects/" + Project_id, {
+            method: "GET",
+            headers: {
+                'Authorization': 'bearer ' + id_token,
+                'X-API-KEY': XAPIKEY,
+            }
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+
+                this.setState({
+                    isLoading: false,
+                    dataSource: responseJson,
+                }, function () {
+
+                });
+
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    });
+
 }
 
+async componentDidUpdate(prevProps, prevState) {
 
-  render() {
+    try {
+      const id = await AsyncStorage.getItem('Project_id');
+      console.log("Check",id)
+     
+      if (id !== prevState.id) {
+        this.setState({
+            dataSource: null,
+            id: id
+        })
+        this.componentDidMount();
+      }
+      
+    } catch (error) {
+      console.log('Error',error);
+    }
+
+
+}
+
+render() {
+  
+
+    if (this.state.isLoading || this.state.dataSource == null) {
+        return (
+            <View style={{ flex: 1, padding: 20 }}>
+                <ActivityIndicator />
+            </View>
+        )
+    }
+    else {
+        const data = this.state.dataSource.tasks;
+        console.log("data",data)
     
     return (
+      <ScrollView contentContainerStyle={styles.contentContainer}>
       <View style={styles.containerView}>
-         <HeaderComponent
-            title={"Mytasks"}
-            navigation={this.props.navigation}
-          />   
-     
-      <View style={styles.container}>
+        <HeaderComponent
+          title={"Mytasks"}
+          navigation={this.props.navigation}
+        />
 
-        
+        <View style={styles.container}>
+          {
+            data.map((tasks) =>
+             
 
-        <Text onPress = {()=> this._onPress()}>Click Me</Text>
-
-        <Collapse style={styles.collapse}>
+          <Collapse style={styles.collapse}>
           <CollapseHeader style={styles.taskHeader}>
             <View>
-              <Text style={styles.taskName}>test</Text>
+              <Text style={styles.taskName}>{tasks.name}</Text>
               {
-              this.state.showMe?
-              <Icon style={styles.upIcon} name="chevron-down" />
-              : <Icon style={styles.upIcon} name="chevron-up"/>
+                this.state.showMe ?
+                  <Icon style={styles.upIcon} name="chevron-down" />
+                  : <Icon style={styles.upIcon} name="chevron-up" />
               }
-              <Text style={styles.taskEntry}>Number of Entries : 1</Text>
+              <Text style={styles.taskEntry}>Number of Entries : {tasks.entry_count}</Text>
             </View>
           </CollapseHeader>
           <CollapseBody style={styles.taskBody}>
@@ -61,77 +136,17 @@ export default class Mytasks extends Component {
             </View>
           </CollapseBody>
         </Collapse>
-
-        <Collapse style={styles.collapse}>
-          <CollapseHeader style={styles.taskHeader}>
-            <View>
-              <Text style={styles.taskName}>test</Text>
-              <Text style={styles.taskEntry}>Number of Entries : 1</Text>
-            </View>
-          </CollapseHeader>
-          <CollapseBody style={styles.taskBody}>
-            <View>
-              <Text style={styles.tasksType}>Photo/Video/Audio/Due: No Time Limit</Text>
-
-              <View style={styles.newentryView}>
-                <TouchableOpacity
-                  style={styles.newentry}
-                >
-                  <Text style={styles.newentryText}> New Entry </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </CollapseBody>
-        </Collapse>
-
-        <Collapse style={styles.collapse}>
-          <CollapseHeader style={styles.taskHeader}>
-            <View>
-              <Text style={styles.taskName}>test</Text>
-              <Text style={styles.taskEntry}>Number of Entries : 1</Text>
-            </View>
-          </CollapseHeader>
-          <CollapseBody style={styles.taskBody}>
-            <View>
-              <Text style={styles.tasksType}>Photo/Video/Audio/Due: No Time Limit</Text>
-
-              <View style={styles.newentryView}>
-                <TouchableOpacity
-                  style={styles.newentry}
-                >
-                  <Text style={styles.newentryText}> New Entry </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </CollapseBody>
-        </Collapse>
-
-        <Collapse style={styles.collapse}>
-          <CollapseHeader style={styles.taskHeader}>
-            <View>
-              <Text style={styles.taskName}>test</Text>
-              <Text style={styles.taskEntry}>Number of Entries : 1</Text>
-            </View>
-          </CollapseHeader>
-          <CollapseBody style={styles.taskBody}>
-            <View>
-              <Text style={styles.tasksType}>Photo/Video/Audio/Due: No Time Limit</Text>
-
-              <View style={styles.newentryView}>
-                <TouchableOpacity
-                  style={styles.newentry}
-                >
-                  <Text style={styles.newentryText}> New Entry </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </CollapseBody>
-        </Collapse>
-      </View>
-
-      </View>
+              
+     )}
+ 
+    </View>
+    
+    </View>
+    </ScrollView>
+  
     );
   }
+}
 }
 
 
@@ -141,21 +156,21 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 0
 
-},
+  },
   container: {
     flex: 1,
     backgroundColor: '#e8e7e7a8',
     padding: 15,
   },
-  upIcon:{
-    fontSize:16,
+  upIcon: {
+    fontSize: 16,
     textAlign: 'right',
-    
+
   },
   collapse: {
     borderWidth: 1,
     borderColor: '#e8e8e8a8',
-    shadowOffset:{  width: 10,  height: 10,  },
+    shadowOffset: { width: 10, height: 10, },
     shadowColor: '#000',
     shadowOpacity: 1.0,
     shadowRadius: 2,

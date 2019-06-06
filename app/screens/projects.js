@@ -12,7 +12,14 @@ export default class Projects extends React.Component {
     this.state ={ isLoading: true}
     
   }
-  test = (id) =>{
+  open = async (id) => { 
+    try {
+      await AsyncStorage.setItem('Project_id', id);
+
+    } catch (error) {
+      console.log("error",error)
+    }
+
     const { navigate } = this.props.navigation;
     navigate({
       routeName: 'DetailsTab',
@@ -22,7 +29,8 @@ export default class Projects extends React.Component {
       }
   })
   }
-  
+
+
   renderItem = ({ item }) =>{
 
  var  image = item.project_image;
@@ -49,7 +57,7 @@ export default class Projects extends React.Component {
                     <View style={styles.openView}>
                         <TouchableOpacity 
                             style={styles.open}
-                            onPress={() => this.test(item.id) }>
+                            onPress={() => this.open(item.id) }>
                         
                             <Text style={styles.openText}> OPEN </Text>
                         </TouchableOpacity>

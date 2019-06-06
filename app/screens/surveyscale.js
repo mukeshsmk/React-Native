@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Platform } from 'react-native';
 import Slider from '@react-native-community/slider'
 import HeaderComponent from '../components/header';
 
-export default class Serveyscale extends Component {
+export default class Surveyscale extends Component {
     constructor(props) {
         super(props);
         this.state = {

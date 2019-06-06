@@ -14,9 +14,8 @@ import Workspaces from '../screens/workspaces';
 import Mytasks from '../screens/mytasks';
 import Profile from '../screens/profile';
 import Changepassword from '../screens/changepassword';
-import Servey from '../screens/servey';
 import Chat from '../screens/chat';
-import Serveyscale from '../screens/serveyscale';
+
 
 const TabNavigator = createBottomTabNavigator({
   DetailsTab: {
@@ -128,9 +127,6 @@ const DrawerNavigator = createDrawerNavigator({
   Details : { screen: StackNavigator },
   Projects : {screen: Projects },
   Profile : { screen: Profile },
-  // Servey : { screen: Servey },
-  // Chat : { screen : Chat },
-  Serveyscale:{ screen : Serveyscale },
   Langauges : { screen: Moderator },
   TechSupport: { screen: Workspaces },
   },
