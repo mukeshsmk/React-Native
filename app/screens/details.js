@@ -35,7 +35,7 @@ export default class Details extends Component {
             })
                 .then((response) => response.json())
                 .then((responseJson) => {
-
+                   this.props.data = responseJson;
                     this.setState({
                         isLoading: false,
                         dataSource: responseJson,
@@ -56,7 +56,7 @@ export default class Details extends Component {
 
         const { navigation } = this.props;
         const id = navigation.getParam('_id');
-        console.log(id, prevState.id);
+       // console.log(id, prevState.id);
 
         if (id !== prevState.id) {
             this.setState({
@@ -78,7 +78,7 @@ export default class Details extends Component {
         }
         else {
             const data = this.state.dataSource;
-            console.log("data",data)
+           // console.log("data",data)
 
             var  image = data.project_image;
             if (image ==  null ){

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, FlatList, AsyncStorage, ActivityIndicator, TouchableOpacity, Text, View, Image, StyleSheet } from 'react-native';
+import { ScrollView, TouchableHighlight ,FlatList, AsyncStorage, ActivityIndicator, TouchableOpacity, Text, View, Image, StyleSheet } from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
 import HeaderComponent from '../components/header';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
@@ -13,7 +13,10 @@ export default class Mytasks extends Component {
       showMe: true,
       id: null,
       dataSource: null,
-      isLoading: true
+      isLoading: true,
+      id_token: null,
+      XAPIKEY: null,
+      Project_id: null
     }
   }
 
@@ -24,69 +27,48 @@ export default class Mytasks extends Component {
   }
 
  
-  async componentDidMount() {
-
-
-    AsyncStorage.multiGet(['id_token', 'X-API-KEY','Project_id']).then((data) => {
-
-        const { navigation } = this.props;
-        const id = navigation.getParam('_id');
-
-      
-        let id_token = data[0][1];
-        let XAPIKEY = data[1][1];
-        let Project_id = data[2][1];
-        console.log('id',id);
-        fetch("http://api-dev.ethosapp.com/v3/projects/" + Project_id, {
-            method: "GET",
-            headers: {
-                'Authorization': 'bearer ' + id_token,
-                'X-API-KEY': XAPIKEY,
-            }
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-
-                this.setState({
-                    isLoading: false,
-                    dataSource: responseJson,
-                }, function () {
-
-                });
-
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    });
-
-}
-
-async componentDidUpdate(prevProps, prevState) {
-
-    try {
-      const id = await AsyncStorage.getItem('Project_id');
-      console.log("Check",id)
+  async componentWillMount() {
+    
+    this.props.navigation.addListener('willFocus', (playload)=>{
+      this.setState({
+        dataSource: null
+      })
      
-      if (id !== prevState.id) {
+      AsyncStorage.multiGet(['id_token', 'X-API-KEY','Project_id']).then((data) => {
         this.setState({
-            dataSource: null,
-            id: id
+          id_token: data[0][1],
+          XAPIKEY: data[1][1],
+          Project_id: data[2][1]
         })
-        this.componentDidMount();
+        this.getTasks();
+      })
+    });
+  }
+  getTasks() {
+    console.log('fun',this.state);
+    fetch("http://api-dev.ethosapp.com/v3/projects/" + this.state.Project_id, {
+      method: "GET",
+      headers: {
+        'Authorization': 'bearer ' + this.state.id_token,
+        'X-API-KEY': this.state.XAPIKEY,
       }
-      
-    } catch (error) {
-      console.log('Error',error);
-    }
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState({
+          isLoading: false,
+          dataSource: responseJson,
+        }, function () {
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
-
-}
 
 render() {
-  
-
-    if (this.state.isLoading || this.state.dataSource == null) {
+     if (this.state.isLoading || this.state.dataSource == null) {
         return (
             <View style={{ flex: 1, padding: 20 }}>
                 <ActivityIndicator />
@@ -96,6 +78,9 @@ render() {
     else {
         const data = this.state.dataSource.tasks;
         console.log("data",data)
+
+        const tasks = data.type;
+        console.log("data",tasks)
     
     return (
       <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -110,8 +95,9 @@ render() {
             data.map((tasks) =>
              
 
-          <Collapse style={styles.collapse}>
-          <CollapseHeader style={styles.taskHeader}>
+          <Collapse style={styles.collapse}  onPress={() => this._onPress() }>
+            
+              <CollapseHeader style={styles.taskHeader} onPress={() => this._onPress()}>
             <View>
               <Text style={styles.taskName}>{tasks.name}</Text>
               {
@@ -122,10 +108,13 @@ render() {
               <Text style={styles.taskEntry}>Number of Entries : {tasks.entry_count}</Text>
             </View>
           </CollapseHeader>
+          
           <CollapseBody style={styles.taskBody}>
+           
             <View>
-              <Text style={styles.tasksType}>Photo/Video/Audio/Due: No Time Limit</Text>
-
+         
+              <Text style={styles.tasksType}>{tasks.type} / Due : No Time LImit</Text>
+           
               <View style={styles.newentryView}>
                 <TouchableOpacity
                   style={styles.newentry}
@@ -170,10 +159,6 @@ const styles = StyleSheet.create({
   collapse: {
     borderWidth: 1,
     borderColor: '#e8e8e8a8',
-    shadowOffset: { width: 10, height: 10, },
-    shadowColor: '#000',
-    shadowOpacity: 1.0,
-    shadowRadius: 2,
     marginTop: 12,
     marginBottom: 12,
   },

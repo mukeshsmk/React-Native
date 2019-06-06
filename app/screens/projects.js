@@ -21,13 +21,7 @@ export default class Projects extends React.Component {
     }
 
     const { navigate } = this.props.navigation;
-    navigate({
-      routeName: 'DetailsTab',
-      params: {
-          _id: id,
-
-      }
-  })
+    navigate('DetailsTab',{'_id': id})
   }
 
 
