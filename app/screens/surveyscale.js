@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet,  TouchableOpacity ,TextInput, Platform } from 'react-native';
+import { View, Text, TouchableHighlight, StyleSheet, Button, TouchableOpacity, TextInput, Platform } from 'react-native';
 import Slider from '@react-native-community/slider'
 import HeaderComponent from '../components/header';
 
@@ -14,16 +14,17 @@ export default class Surveyscale extends Component {
   }
 
 
-  _onPress()
-  {
-   this.setState({
-     showMe:false,
-   })
- }
+  _onPress() {
+    this.setState({
+      showMe: false,
+    })
+  }
 
   render() {
     return (
-      <View style={styles.container}>
+
+      <View style={{ flex: 1 }}>
+
         <HeaderComponent
           title={"Servey"}
           navigation={this.props.navigation}
@@ -44,8 +45,8 @@ export default class Surveyscale extends Component {
             maximumTrackTintColor="#000000"
             step={1}
             value={this.state.sliderValue}
-            onValueChange={(sliderValue) => this.setState({ sliderValue, showMe:false, })}
-            style={{ width: 300, height: 40, marginRight: '10%', marginLeft: '10%', }}
+            onValueChange={(sliderValue) => this.setState({ sliderValue, showMe: false, })}
+            style={{ width: '80%', height: 40, marginRight: '5%', marginLeft: '5%', }}
           />
 
 
@@ -56,10 +57,10 @@ export default class Surveyscale extends Component {
                 null
 
                 : <View style={styles.textAreaContainer} >
+                  <Text style={styles.rating}>Why did you give that rating?</Text>
                   <TextInput
                     style={styles.textArea}
                     underlineColorAndroid="transparent"
-                    placeholder="Type something"
                     placeholderTextColor="grey"
                     numberOfLines={10}
                     multiline={true}
@@ -67,21 +68,25 @@ export default class Surveyscale extends Component {
                 </View>
             }
 
-            <View style={styles.sendView}>
-              <TouchableOpacity style={styles.send}>
-                <Text style={styles.sendText}>
-                  SEND
-             </Text>
-              </TouchableOpacity>
-            </View>
-
           </View>
 
         </View>
+
+        <View style={styles.sendView} >
+          <TouchableOpacity>
+            <Text style={styles.sendText}>
+              SEND
+          </Text>
+          </TouchableOpacity>
+        </View>
+
       </View>
     );
   }
 }
+
+
+
 
 const styles = StyleSheet.create(
   {
@@ -98,43 +103,37 @@ const styles = StyleSheet.create(
     newscale: {
       fontSize: 18,
       color: '#000',
-      marginBottom:10,
-      marginTop:10,
+      marginBottom: 10,
+      marginTop: 10,
     },
     scaleView: {
       marginRight: '8%',
       marginLeft: '8%',
     },
-    textAreaContainer: {
-      borderColor: 'grey',
-      borderWidth: 1,
-      padding: 5,
-      margin:20,
+    rating: {
+      marginLeft: '8%',
     },
     textArea: {
       height: 120,
+      borderColor: 'grey',
+      borderWidth: 1,
+      padding: 5,
+      margin: 20,
     },
     sendView: {
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop:10,
-      bottom: 0,
-      left: '5%',
-    },
-    send: {
-        width: "30%",
-        
-        margin: 0,
-        marginTop:10,
-        marginBottom:10,
-        backgroundColor: '#2ba1d0',
-        padding: 12,
-        color: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 30,
+      position: 'absolute',
+      bottom: '5%',
+      marginLeft: '32%',
     },
     sendText: {
-        color: '#fff',
+      paddingTop: 15,
+      paddingBottom: 15,
+      paddingLeft: 30,
+      paddingRight: 30,
+      backgroundColor: '#2ba1d0',
+      color: '#fff',
+      borderRadius: 25,
     },
   });

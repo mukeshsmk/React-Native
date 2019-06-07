@@ -3,7 +3,7 @@ import { Text, View , StyleSheet, TouchableOpacity , Button ,TextInput } from 'r
 import HeaderComponent from '../components/header';
 import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
 
-export default class Survey extends Component {
+export default class Surveymultilpechoice extends Component {
 
   constructor(props){
     super(props);
@@ -45,6 +45,23 @@ export default class Survey extends Component {
             <RadioButton style={styles.radioButton}>
               <Text style={styles.radioButtonText}>This is item #3</Text>
             </RadioButton>
+
+            <RadioButton style={styles.radioButton}>
+              <Text style={styles.radioButtonText}>This is item #4</Text>
+            </RadioButton>
+
+            <RadioButton style={styles.radioButton}>
+              <Text style={styles.radioButtonText}>This is item #5</Text>
+            </RadioButton>
+
+            <RadioButton style={styles.radioButton}>
+              <Text style={styles.radioButtonText}>This is item #6</Text>
+            </RadioButton>
+
+            <RadioButton style={styles.radioButton}>
+              <Text style={styles.radioButtonText}>This is item #7</Text>
+            </RadioButton>
+            
           </RadioGroup>
       
          <View>

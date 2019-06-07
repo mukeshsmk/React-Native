@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { ScrollView, TouchableHighlight ,FlatList, AsyncStorage, ActivityIndicator, TouchableOpacity, Text, View, Image, StyleSheet } from 'react-native';
+import { ScrollView, TouchableHighlight, FlatList, AsyncStorage, ActivityIndicator, TouchableOpacity, Text, View, Image, StyleSheet } from 'react-native';
 import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
 import HeaderComponent from '../components/header';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import Chat from '../screens/chat'; 
+import Chat from '../screens/chat';
+import { WebView } from 'react-native-webview';
 
 
 export default class Mytasks extends Component {
-
 
   constructor() {
     super()
@@ -28,38 +28,34 @@ export default class Mytasks extends Component {
     })
   }
 
-  newentry(){
+  newentry() {
     const { navigate } = this.props.navigation;
     const data = this.state.dataSource.tasks;
     {
-      data.map((tasks) => 
-      {(() => {
-        switch (tasks.type) {
-          case "-1":  return  navigate('Chat');
-          case "0":   return  navigate('Chat');
-          case "1":   return  navigate('Chat');
-          case "2":   return  navigate('Chat');
-          case "3":   return  navigate('Chat');                 
-          case "4":   return  navigate('Chat');
-          default:    return  navigate('Chat');
-        }
-      })()}
-)}
-
-     
-    
-      
-   
+      data.map((tasks) => {
+        (() => {
+          switch (tasks.type) {
+            case "-1": return navigate('Chat');
+            case "0": return navigate('Chat');
+            case "1": return navigate('Chat');
+            case "2": return navigate('Chat');
+            case "3": return navigate('Chat');
+            case "4": return navigate('Surveymultilpechoice');
+            default: return navigate('Surveyscale');
+          }
+        })()
+      }
+      )
+    }
   }
- 
+
   async componentWillMount() {
-    
-    this.props.navigation.addListener('willFocus', (playload)=>{
+    this.props.navigation.addListener('willFocus', (playload) => {
       this.setState({
         dataSource: null
       })
-     
-      AsyncStorage.multiGet(['id_token', 'X-API-KEY','Project_id']).then((data) => {
+
+      AsyncStorage.multiGet(['id_token', 'X-API-KEY', 'Project_id']).then((data) => {
         this.setState({
           id_token: data[0][1],
           XAPIKEY: data[1][1],
@@ -69,8 +65,8 @@ export default class Mytasks extends Component {
       })
     });
   }
-  getTasks() {
 
+  getTasks() {
     fetch("http://api-dev.ethosapp.com/v3/projects/" + this.state.Project_id, {
       method: "GET",
       headers: {
@@ -91,99 +87,85 @@ export default class Mytasks extends Component {
       });
   }
 
-
-render() {
-     if (this.state.isLoading || this.state.dataSource == null) {
-        return (
-            <View style={{ flex: 1, padding: 20 }}>
-                <ActivityIndicator />
-            </View>
-        )
+  render() {
+    if (this.state.isLoading || this.state.dataSource == null) {
+      return (
+        <View style={{ flex: 1, padding: 20 }}>
+          <ActivityIndicator />
+        </View>
+      )
     }
+
     else {
-        const data = this.state.dataSource.tasks;
-        console.log("data",data)
+      const data = this.state.dataSource.tasks;
+      console.log("data", data)
 
-        const tasks = data.type;
-        console.log("data",tasks)
-    
-    return (
-      <ScrollView contentContainerStyle={styles.contentContainer}>
-      <View style={styles.containerView}>
-        <HeaderComponent
-          title={"Mytasks"}
-          navigation={this.props.navigation}
-        />
+      return (
 
-        <View style={styles.container}>
-          {
-            data.map((tasks) =>
-             
-
-          <Collapse style={styles.collapse}  onPress={() => this._onPress() }>
-            
-              <CollapseHeader style={styles.taskHeader} onPress={() => this._onPress()}>
-            <View>
-              <Text style={styles.taskName}>{tasks.name}</Text>
+        <View style={styles.containerView}>
+          <HeaderComponent
+            title={"Mytasks"}
+            navigation={this.props.navigation}
+          />
+          <ScrollView contentContainerStyle={styles.contentContainer}>
+            <View style={styles.container}>
               {
-                this.state.showMe ?
-                  <Icon style={styles.upIcon} name="chevron-down" />
-                  : <Icon style={styles.upIcon} name="chevron-up" />
-              }
-              <Text style={styles.taskEntry}>Number of Entries : {tasks.entry_count}</Text>
+                data.map((tasks) =>
+                  <Collapse style={styles.collapse} onPress={() => this._onPress()}>
+                    <CollapseHeader style={styles.taskHeader} onPress={() => this._onPress()}>
+                      <View>
+                        <Text style={styles.taskName}>{tasks.name}</Text>
+                        {
+                          this.state.showMe ?
+                            <Icon style={styles.upIcon} name="chevron-down" />
+                            : <Icon style={styles.upIcon} name="chevron-up" />
+                        }
+                        <Text style={styles.taskEntry}>Number of Entries : {tasks.entry_count}</Text>
+                      </View>
+                    </CollapseHeader>
+                    <CollapseBody style={styles.taskBody}>
+                      <View>
+                        {(() => {
+                          switch (tasks.type) {
+                            case "-1": return <Text style={styles.tasksType}> Photo/Audio/Video/Due : No Time LImit</Text>;
+                            case "0": return <Text style={styles.tasksType}> Photo/Due : No Time LImit</Text>;
+                            case "1": return <Text style={styles.tasksType}> Audio/Due : No Time LImit</Text>;
+                            case "2": return <Text style={styles.tasksType}> Video/Due : No Time LImit</Text>;
+                            case "3": return <Text style={styles.tasksType}> Text/Due : No Time LImit</Text>;
+                            case "4": return <Text style={styles.tasksType}> Scale /Due : No Time LImit</Text>;
+                            default: return <Text style={styles.tasksType}> Photo/Audio/Video/Due : No Time LImit</Text>;
+                          }
+                        })()}
+                        <Text style={styles.taskDescription}> {tasks.description} </Text>
+                        <View>
+                          <WebView style={styles.description}
+                            source={{ html: tasks.description }}
+                          />
+                        </View>
+                        <View style={styles.newentryView}>
+                          <TouchableOpacity
+                            style={styles.newentry}
+                            onPress={() => this.newentry(tasks.type)}
+                          >
+                            <Text style={styles.newentryText}> New Entry </Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </CollapseBody>
+                  </Collapse>
+                )}
             </View>
-          </CollapseHeader>
-          
-          <CollapseBody style={styles.taskBody}>
-           
-            <View>
-             
-                  {(() => {
-                    switch (tasks.type) {
-                      case "-1":  return  <Text style={styles.tasksType}> Photo/Audio/Video/Due : No Time LImit</Text>;
-                      case "0":   return  <Text style={styles.tasksType}> Photo/Due : No Time LImit</Text>;
-                      case "1":   return  <Text style={styles.tasksType}> Audio/Due : No Time LImit</Text>;
-                      case "2":   return  <Text style={styles.tasksType}> Video/Due : No Time LImit</Text>;
-                      case "3":   return  <Text style={styles.tasksType}> Text/Due : No Time LImit</Text>;                   
-                      case "4":   return  <Text style={styles.tasksType}> Scale /Due : No Time LImit</Text>;
-                      default:    return  <Text style={styles.tasksType}> Photo/Audio/Video/Due : No Time LImit</Text>;
-                    }
-                  })()}
-
-                <Text style={styles.taskDescription}> { tasks.description} </Text>
-              
-             
-              <View style={styles.newentryView}>
-                <TouchableOpacity
-                  style={styles.newentry}
-                  onPress={() => this.newentry(tasks.type) }
-                >
-                  <Text style={styles.newentryText}> New Entry </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </CollapseBody>
-        </Collapse>
-              
-     )}
- 
-    </View>
-    
-    </View>
-    </ScrollView>
-  
-    );
+          </ScrollView>
+        </View>
+      );
+    }
   }
 }
-}
-
-
 
 const styles = StyleSheet.create({
   containerView: {
     flex: 1,
     margin: 0
-
   },
   container: {
     flex: 1,
@@ -193,7 +175,6 @@ const styles = StyleSheet.create({
   upIcon: {
     fontSize: 16,
     textAlign: 'right',
-
   },
   collapse: {
     borderWidth: 1,
