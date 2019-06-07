@@ -16,7 +16,7 @@ export default class Survey extends Component {
    _onPress()
    {
     this.setState({
-      showMe:!this.state.showMe
+      showMe:false,
     })
   }
 
@@ -32,27 +32,26 @@ export default class Survey extends Component {
           <Text style={styles.survey}>test survey 1</Text>
           <Text>please select one answer</Text>
     
-          <RadioGroup onPress= {()=> this._onPress()}>
+          <RadioGroup onSelect= {()=> this._onPress()}>
           
-            <RadioButton style={styles.radioButton} onChange = {()=> this._onPress()}>
+            <RadioButton style={styles.radioButton}>
               <Text style={styles.radioButtonText} >This is item #1</Text>
             </RadioButton>
     
-            <RadioButton style={styles.radioButton} onPress = {()=> this._onPress()}>
+            <RadioButton style={styles.radioButton}>
               <Text style={styles.radioButtonText} >This is item #2</Text>
             </RadioButton>
     
-            <RadioButton style={styles.radioButton} onPress = {()=> this._onPress()}>
+            <RadioButton style={styles.radioButton}>
               <Text style={styles.radioButtonText}>This is item #3</Text>
             </RadioButton>
           </RadioGroup>
       
          <View>
        
-          <Text onPress = {()=> this._onPress()}>Click Me</Text>
           {
               this.state.showMe?
-          <Text>Show Me</Text>
+             null
           
           :<View style={styles.textAreaContainer} >
               <TextInput
@@ -105,12 +104,16 @@ const styles = StyleSheet.create({
   radioButton:{
     borderBottomColor: '#2289dc',
     borderBottomWidth: 2,
+    paddingTop:15,
+    paddingBottom:15,
    
   },
   textAreaContainer: {
     borderColor: 'grey',
     borderWidth: 1,
     padding: 5,
+    margin:20,
+
   
   },
   textArea: {
@@ -119,6 +122,7 @@ const styles = StyleSheet.create({
   sendView: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop:10,
   },
   send: {
       width: "30%",

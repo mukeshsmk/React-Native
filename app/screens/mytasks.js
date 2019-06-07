@@ -3,6 +3,8 @@ import { ScrollView, TouchableHighlight ,FlatList, AsyncStorage, ActivityIndicat
 import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
 import HeaderComponent from '../components/header';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import Chat from '../screens/chat'; 
+
 
 export default class Mytasks extends Component {
 
@@ -26,6 +28,29 @@ export default class Mytasks extends Component {
     })
   }
 
+  newentry(){
+    const { navigate } = this.props.navigation;
+    const data = this.state.dataSource.tasks;
+    {
+      data.map((tasks) => 
+      {(() => {
+        switch (tasks.type) {
+          case "-1":  return  navigate('Chat');
+          case "0":   return  navigate('Chat');
+          case "1":   return  navigate('Chat');
+          case "2":   return  navigate('Chat');
+          case "3":   return  navigate('Chat');                 
+          case "4":   return  navigate('Chat');
+          default:    return  navigate('Chat');
+        }
+      })()}
+)}
+
+     
+    
+      
+   
+  }
  
   async componentWillMount() {
     
@@ -45,7 +70,7 @@ export default class Mytasks extends Component {
     });
   }
   getTasks() {
-    console.log('fun',this.state);
+
     fetch("http://api-dev.ethosapp.com/v3/projects/" + this.state.Project_id, {
       method: "GET",
       headers: {
@@ -112,12 +137,26 @@ render() {
           <CollapseBody style={styles.taskBody}>
            
             <View>
-         
-              <Text style={styles.tasksType}>{tasks.type} / Due : No Time LImit</Text>
-           
+             
+                  {(() => {
+                    switch (tasks.type) {
+                      case "-1":  return  <Text style={styles.tasksType}> Photo/Audio/Video/Due : No Time LImit</Text>;
+                      case "0":   return  <Text style={styles.tasksType}> Photo/Due : No Time LImit</Text>;
+                      case "1":   return  <Text style={styles.tasksType}> Audio/Due : No Time LImit</Text>;
+                      case "2":   return  <Text style={styles.tasksType}> Video/Due : No Time LImit</Text>;
+                      case "3":   return  <Text style={styles.tasksType}> Text/Due : No Time LImit</Text>;                   
+                      case "4":   return  <Text style={styles.tasksType}> Scale /Due : No Time LImit</Text>;
+                      default:    return  <Text style={styles.tasksType}> Photo/Audio/Video/Due : No Time LImit</Text>;
+                    }
+                  })()}
+
+                <Text style={styles.taskDescription}> { tasks.description} </Text>
+              
+             
               <View style={styles.newentryView}>
                 <TouchableOpacity
                   style={styles.newentry}
+                  onPress={() => this.newentry(tasks.type) }
                 >
                   <Text style={styles.newentryText}> New Entry </Text>
                 </TouchableOpacity>

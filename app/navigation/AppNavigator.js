@@ -15,7 +15,8 @@ import Mytasks from '../screens/mytasks';
 import Profile from '../screens/profile';
 import Changepassword from '../screens/changepassword';
 import Chat from '../screens/chat';
-
+import Survey from '../screens/survey';
+import Surveyscale from '../screens/surveyscale';
 
 const TabNavigator = createBottomTabNavigator({
   DetailsTab: {
@@ -57,7 +58,10 @@ const TabNavigator = createBottomTabNavigator({
 );
 
 const StackNavigator = createStackNavigator({
-  TabNavigator:TabNavigator
+  TabNavigator:TabNavigator,
+  Chat : { screen: Chat },
+  Survey : { screen: Survey },
+  Surveyscale : { screen: Surveyscale },
 },{
   headerMode: 'none',
   navigationOptions: {
@@ -129,6 +133,7 @@ const DrawerNavigator = createDrawerNavigator({
   Profile : { screen: Profile },
   Langauges : { screen: Moderator },
   TechSupport: { screen: Workspaces },
+  Surveyscale : { screen: Surveyscale },
   },
   {
     initialRouteName : 'Projects',
