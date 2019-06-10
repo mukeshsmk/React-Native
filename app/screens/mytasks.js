@@ -3,8 +3,11 @@ import { ScrollView, TouchableHighlight, FlatList, AsyncStorage, ActivityIndicat
 import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
 import HeaderComponent from '../components/header';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import Chat from '../screens/chat';
+import Newentry from '../screens/newentry';
 import { WebView } from 'react-native-webview';
+import { createStackNavigator } from 'react-navigation';
+import Surveyscale from '../screens/surveyscale'
+
 
 
 export default class Mytasks extends Component {
@@ -22,31 +25,22 @@ export default class Mytasks extends Component {
     }
   }
 
+  
+  
   _onPress() {
     this.setState({
       showMe: !this.state.showMe
     })
   }
 
-  newentry() {
+  
+  newentry(id,type) {
     const { navigate } = this.props.navigation;
+
+    navigate('Newentry',{'type': type,'id': id })
+    console.log('type',type)
+    console.log('id',id)
     const data = this.state.dataSource.tasks;
-    {
-      data.map((tasks) => {
-        (() => {
-          switch (tasks.type) {
-            case "-1": return navigate('Chat');
-            case "0": return navigate('Chat');
-            case "1": return navigate('Chat');
-            case "2": return navigate('Chat');
-            case "3": return navigate('Chat');
-            case "4": return navigate('Surveymultilpechoice');
-            default: return navigate('Surveyscale');
-          }
-        })()
-      }
-      )
-    }
   }
 
   async componentWillMount() {
@@ -114,7 +108,7 @@ export default class Mytasks extends Component {
                   <Collapse style={styles.collapse} onPress={() => this._onPress()}>
                     <CollapseHeader style={styles.taskHeader} onPress={() => this._onPress()}>
                       <View>
-                        <Text style={styles.taskName}>{tasks.name}</Text>
+                      <Text style={styles.taskName}>{tasks.name} </Text>
                         {
                           this.state.showMe ?
                             <Icon style={styles.upIcon} name="chevron-down" />
@@ -145,7 +139,7 @@ export default class Mytasks extends Component {
                         <View style={styles.newentryView}>
                           <TouchableOpacity
                             style={styles.newentry}
-                            onPress={() => this.newentry(tasks.type)}
+                            onPress={() => this.newentry(tasks.id,tasks.type)}
                           >
                             <Text style={styles.newentryText}> New Entry </Text>
                           </TouchableOpacity>
@@ -238,3 +232,15 @@ const styles = StyleSheet.create({
     paddingLeft: 20
   },
 })
+
+
+const NewEntryNav = createStackNavigator({
+  NewEntry : { screen: Newentry },
+  Surveyscale: { screen: Surveyscale },
+},{
+  headerMode: 'none',
+  navigationOptions: {
+  headerVisible: false,
+  }
+ }
+);

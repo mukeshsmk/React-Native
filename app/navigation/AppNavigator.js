@@ -14,7 +14,7 @@ import Workspaces from '../screens/workspaces';
 import Mytasks from '../screens/mytasks';
 import Profile from '../screens/profile';
 import Changepassword from '../screens/changepassword';
-import Chat from '../screens/chat';
+import Newentry from '../screens/newentry';
 import Surveymultilpechoice from '../screens/surveymultilpechoice';
 import Surveyscale from '../screens/surveyscale';
 
@@ -130,7 +130,7 @@ const DrawerNavigator = createDrawerNavigator({
   Profile : { screen: Profile },
   Langauges : { screen: Moderator },
   TechSupport: { screen: Workspaces },
-  Chat : { screen: Chat },
+  Newentry : { screen: Newentry },
   Surveymultilpechoice : { screen: Surveymultilpechoice },
   Surveyscale : { screen: Surveyscale },
   },
