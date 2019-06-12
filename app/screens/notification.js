@@ -13,13 +13,15 @@ export default class Notification extends Component {
           title={"Notification"}
           navigation={this.props.navigation}
         /> 
-      <View style={ styles.container }>
+      <View style={ styles.container } >
 
-        <Card style = { styles.cardView }>
-          <CardTitle
+        <Card style = { styles.cardView } 
+        onPress={() => navigate('Newentry')}>
+          <CardTitle onPress={() => navigate('Newentry')}
              title="all media but select only text"
           />
-          <CardContent text="2019-05-29 18:18:29" />
+          <CardContent text="2019-05-29 18:18:29" onPress={() => navigate('Newentry')}
+          />
         </Card>
         <Card style = { styles.cardView }>
           <CardTitle

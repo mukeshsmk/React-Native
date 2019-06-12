@@ -77,15 +77,17 @@ export default class Profile extends Component {
         
     }
 
-    uploadImage= async () => {
-        AsyncStorage.multiGet(['id_token', 'X-API-KEY']).then((data) => {
+     uploadImage = async () => {
+        AsyncStorage.multiGet(['id_token', 'user_id', 'X-API-KEY']).then((data) => {
             let id_token = data[0][1];
-            let XAPIKEY = data[1][1];
+            let user_id = data[1][1];
+            let XAPIKEY = data[2][1];
             console.log(id_token)
+            console.log(user_id);
             console.log(XAPIKEY)
-    
-           fetch( 'http://api-dev.ethosapp.com/v3/users', {
-            method: "PUT",
+        
+
+           fetch('PUT', 'http://api-dev.ethosapp.com/v3/users', {
             header:{
                 'Content-Type': 'application/json',
                 'X-API-KEY': XAPIKEY,
@@ -110,7 +112,7 @@ export default class Profile extends Component {
             console.log("upload error", error);
             alert("Upload failed!");
           });
-      })
+        })
     }
 
 

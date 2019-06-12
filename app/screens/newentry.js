@@ -11,10 +11,26 @@ import {
   FlatList,
   Button
 } from 'react-native';
+import ImagePicker from 'react-native-image-picker';
 import Slider from '@react-native-community/slider'
 import { RadioGroup, RadioButton } from 'react-native-flexi-radio-button'
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import HeaderComponent from '../components/header';
+
+const optionsImage = {
+  title: 'Choose Photo',
+  takePhotoButtonTitle: 'Camera',
+  chooseFromLibraryButtonTitle: 'Photo Library'
+};
+
+const optionsVideos = {
+    title: 'Video Picker',
+    takePhotoButtonTitle: 'Take Video...',
+    mediaType: 'video',
+    videoQuality: 'medium',
+};
+
+
 
 export default class Newentry extends React.Component {
   constructor(props) {
@@ -35,10 +51,53 @@ export default class Newentry extends React.Component {
       MultishowMe: true,
       sliderValue: 7,
       RangeshowMe: true,
-      isLoading: true
+      isLoading: true,
+      avatarSource: null,
     };
   }
 
+  uploadImage = () => {
+
+    ImagePicker.showImagePicker(optionsImage, (response) => {
+        console.log('Response = ', response);
+
+        if (response.didCancel) {
+            console.log('User cancelled image picker');
+        } else if (response.error) {
+            console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+            console.log('User tapped custom button: ', response.customButton);
+        } else {
+            const source = { uri :response.uri }
+            this.setState({
+                avatarSource: source,
+            });
+            console.log('avatarSource',this.state.avatarSource)
+        }
+    })
+    
+}
+
+uploadVideo = () => {
+
+  ImagePicker.showImagePicker(optionsVideos, (response) => {
+    if (response.didCancel) {
+        console.log('User cancelled image picker');
+    } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+    } else if (response.customButton === 'video') {
+        ImagePicker.launchCamera(optionsVideos, (response)  => {
+            //do what you want with the video
+        });
+    } else if (response.customButton === 'video_library') {
+        ImagePicker.launchImageLibrary(optionsVideos, (response)  => {
+            //do what you want with the video
+        });
+    } else {
+        //do what you want with the picture
+    }
+});
+}
   _onPressRange() {
     this.setState({
       RangeshowMe: false,
@@ -212,7 +271,7 @@ export default class Newentry extends React.Component {
 
               <TouchableOpacity>
               <Icon name="upload"  style={styles.uploadIcon}
-            
+             onPress={this.uploadImage}
             />
 
                 </TouchableOpacity>
@@ -318,7 +377,7 @@ export default class Newentry extends React.Component {
 
               <TouchableOpacity>
               <Icon name="upload"  style={styles.uploadIcon}
-            
+            onPress={this.uploadVideo}
             />
 
                 </TouchableOpacity>
@@ -599,9 +658,10 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
   },
   uploadIcon:{
-    fontSize:24,
+    fontSize:30,
     color:'#2ba1d0',
     margin:10,
+    marginTop:5,
   },
   btnSend: {
     backgroundColor: "#00BFFF",
