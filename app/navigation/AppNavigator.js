@@ -15,7 +15,8 @@ import Mytasks from '../screens/mytasks';
 import Profile from '../screens/profile';
 import Changepassword from '../screens/changepassword';
 import Newentry from '../screens/newentry';
-
+import Workspaceentries from '../screens/workspaceentries';
+import Groupchat from '../screens/groupchat';
 
 const TabNavigator = createBottomTabNavigator({
   DetailsTab: {
@@ -59,6 +60,9 @@ const TabNavigator = createBottomTabNavigator({
 const StackNavigator = createStackNavigator({
   TabNavigator:TabNavigator,
   Newentry : { screen: Newentry },
+  Mytasks : { screen : Mytasks },
+  Workspaceentries: {screen: Workspaceentries },
+  Groupchat: { screen: Groupchat },
 },{
   headerMode: 'none',
   navigationOptions: {
@@ -129,7 +133,6 @@ const DrawerNavigator = createDrawerNavigator({
   Projects : {screen: Projects },
   Profile : { screen: Profile },
   Langauges : { screen: Moderator },
-  Changepassword: { screen : Changepassword}, 
   TechSupport: { screen: Workspaces },
   },
   {

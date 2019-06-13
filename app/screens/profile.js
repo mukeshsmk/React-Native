@@ -4,12 +4,22 @@ import HeaderComponent from '../components/header';
 import Loading from '../components/loader';
 import ImagePicker from 'react-native-image-picker';
 import AsyncStorage from '@react-native-community/async-storage';
+import fetch from 'cross-fetch';
+import { createStackNavigator } from 'react-navigation';
+import Changepassword from '../screens/changepassword';
 
 const options = {
     title: 'Choose Photo',
     takePhotoButtonTitle: 'Camera',
     chooseFromLibraryButtonTitle: 'Photo Library'
 };
+
+
+const PasswordNavigator = createStackNavigator({
+    Changepassword: {
+      screen: Changepassword
+    }
+  });
 
 export default class Profile extends Component {
 
@@ -78,7 +88,18 @@ export default class Profile extends Component {
     }
 
      uploadImage = async () => {
-        AsyncStorage.multiGet(['id_token', 'user_id', 'X-API-KEY']).then((data) => {
+
+        // console.log(this.state.avatarSource)
+        // const data = new FormData();
+
+        // data.append(
+        //     "photo",
+        //     JSON.stringify({
+        //         uri:this.state.avatarSource, 
+        //     })
+        //   );
+
+          await  AsyncStorage.multiGet(['id_token', 'user_id', 'X-API-KEY']).then((data) => {
             let id_token = data[0][1];
             let user_id = data[1][1];
             let XAPIKEY = data[2][1];
@@ -86,18 +107,20 @@ export default class Profile extends Component {
             console.log(user_id);
             console.log(XAPIKEY)
         
-
-           fetch('PUT', 'http://api-dev.ethosapp.com/v3/users', {
+            console.log( 'photo' ,this.state.avatarSource, );
+            
+           fetch('http://api-dev.ethosapp.com/v3/users', {
+            method:'PUT',
             header:{
                 'Content-Type': 'application/json',
                 'X-API-KEY': XAPIKEY,
                 'authorization' : 'bearer ' + id_token,
                
-            }, body: JSON.stringify({
+            },  body: JSON.stringify({
                 'photo' : this.state.avatarSource, 
                 
               })
-              
+            
         }).then(response => response.json())
           .then(response => {
             console.log(response)
@@ -149,14 +172,14 @@ export default class Profile extends Component {
                     <View style={styles.buttonView}>
 
                         <TouchableOpacity style={styles.change}
-                            onPress={this.changeImage}>
+                            onPress={this.changeImage.bind(this)}>
                             <Text style={styles.changeText}>
                                 Change Profile Photo
                         </Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.change}
-                            onPress={this.uploadImage}>
+                            onPress={this.uploadImage.bind(this)}>
                             <Text style={styles.changeText}>
                                 Upload Profile Photo
                         </Text>
@@ -164,7 +187,8 @@ export default class Profile extends Component {
 
 
                         <TouchableOpacity style={styles.change}>
-                            <Text style={styles.changeText}>
+                            <Text style={styles.changeText}
+                            onPress={() => this.props.navigation.navigate('Changepassword')}>
                                 Change Password
                         </Text>
                         </TouchableOpacity>
