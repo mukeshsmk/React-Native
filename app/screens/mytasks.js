@@ -34,13 +34,16 @@ export default class Mytasks extends Component {
   }
 
   
-  newentry(id,type,survey_type) {
+  newentry(id,type,survey_type,name,options,order_priority) {
     const { navigate } = this.props.navigation;
 
-    navigate('Newentry',{'type': type,'id': id, "survey_type" : survey_type })
+    navigate('Newentry',{'type': type,'id': id, "survey_type" : survey_type,"name":name, "options":options,"order_priority":order_priority })
     console.log('type',type)
     console.log('id',id)
     console.log('survey_type',survey_type)
+    console.log('name',name)
+    console.log('options',options)
+    console.log('order_priority',order_priority)
     const data = this.state.dataSource.tasks;
   }
 
@@ -140,7 +143,7 @@ export default class Mytasks extends Component {
                         <View style={styles.newentryView}>
                           <TouchableOpacity
                             style={styles.newentry}
-                            onPress={() => this.newentry(tasks.id,tasks.type,tasks.survey_type)}
+                            onPress={() => this.newentry(tasks.id,tasks.type,tasks.survey_type,tasks.name,tasks.options,tasks.order_priority)}
                           >
                             <Text style={styles.newentryText}> New Entry </Text>
                           </TouchableOpacity>

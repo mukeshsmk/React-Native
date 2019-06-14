@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
+  FlatList,
   View,
   TouchableOpacity,
   Image,
   Alert,
   ScrollView,
   TextInput,
-  FlatList,
   Button
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
@@ -24,13 +24,11 @@ const optionsImage = {
 };
 
 const optionsVideos = {
-    title: 'Video Picker',
-    takePhotoButtonTitle: 'Take Video...',
-    mediaType: 'video',
-    videoQuality: 'medium',
+  title: 'Video Picker',
+  takePhotoButtonTitle: 'Take Video...',
+  mediaType: 'video',
+  videoQuality: 'medium',
 };
-
-
 
 export default class Newentry extends React.Component {
   constructor(props) {
@@ -59,45 +57,45 @@ export default class Newentry extends React.Component {
   uploadImage = () => {
 
     ImagePicker.showImagePicker(optionsImage, (response) => {
-        console.log('Response = ', response);
+      console.log('Response = ', response);
 
-        if (response.didCancel) {
-            console.log('User cancelled image picker');
-        } else if (response.error) {
-            console.log('ImagePicker Error: ', response.error);
-        } else if (response.customButton) {
-            console.log('User tapped custom button: ', response.customButton);
-        } else {
-            const source = { uri :response.uri }
-            this.setState({
-                avatarSource: source,
-            });
-            console.log('avatarSource',this.state.avatarSource)
-        }
-    })
-    
-}
-
-uploadVideo = () => {
-
-  ImagePicker.showImagePicker(optionsVideos, (response) => {
-    if (response.didCancel) {
+      if (response.didCancel) {
         console.log('User cancelled image picker');
-    } else if (response.error) {
+      } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
-    } else if (response.customButton === 'video') {
-        ImagePicker.launchCamera(optionsVideos, (response)  => {
-            //do what you want with the video
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.uri }
+        this.setState({
+          avatarSource: source,
         });
-    } else if (response.customButton === 'video_library') {
-        ImagePicker.launchImageLibrary(optionsVideos, (response)  => {
-            //do what you want with the video
+        console.log('avatarSource', this.state.avatarSource)
+      }
+    })
+
+  }
+
+  uploadVideo = () => {
+
+    ImagePicker.showImagePicker(optionsVideos, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton === 'video') {
+        ImagePicker.launchCamera(optionsVideos, (response) => {
+          //do what you want with the video
         });
-    } else {
+      } else if (response.customButton === 'video_library') {
+        ImagePicker.launchImageLibrary(optionsVideos, (response) => {
+          //do what you want with the video
+        });
+      } else {
         //do what you want with the picture
-    }
-});
-}
+      }
+    });
+  }
   _onPressRange() {
     this.setState({
       RangeshowMe: false,
@@ -115,14 +113,23 @@ uploadVideo = () => {
     const type = navigation.getParam('type');
     const id = navigation.getParam('id');
     const survey_type = navigation.getParam('survey_type');
+    const name = navigation.getParam('name');
+    const options = navigation.getParam('options');
+    const order_priority = navigation.getParam('order_priority');
     this.setState({
       type: type,
       id, id,
-      survey_type: survey_type
+      survey_type: survey_type,
+      name: name,
+      options: options,
+      order_priority: order_priority
     })
     console.log("GetParam", type);
     console.log("id", id);
-    console.log('survey_type', survey_type)
+    console.log('survey_type', survey_type);
+    console.log('name', name);
+    console.log('options', options);
+    console.log('order_priority', order_priority);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -170,6 +177,15 @@ uploadVideo = () => {
   }
 
 
+  renderItem = ({ item }) => {
+    return (
+      <Text style={styles.MultiradioButtonText}>
+        {this.state.options}
+      </Text>
+
+    )
+  }
+
   renderDate = (date) => {
     return (
       <Text style={styles.time}>
@@ -216,10 +232,10 @@ uploadVideo = () => {
                   }} />
                 <View style={styles.footer}>
 
-                <TouchableOpacity>
-                <Icon name="upload"  style={styles.uploadIcon}
-              
-              />
+                  <TouchableOpacity>
+                    <Icon name="upload" style={styles.uploadIcon}
+
+                    />
 
                   </TouchableOpacity>
                   <View style={styles.inputContainer}>
@@ -240,161 +256,161 @@ uploadVideo = () => {
             case "0":
               return <View style={styles.container}>
 
-              <HeaderComponent
-                title={"Photo"}
-                navigation={this.props.navigation}
-              />
+                <HeaderComponent
+                  title={"Photo"}
+                  navigation={this.props.navigation}
+                />
 
-              <FlatList style={styles.list}
-                data={this.state.data}
-                keyExtractor={(item) => {
-                  return item.id;
-                }}
-                renderItem={(message) => {
-                  console.log(item);
-                  const item = message.item;
-                  let inMessage = item.type === 'in';
-                  let itemStyle = inMessage ? styles.itemIn : styles.itemOut;
-                  return (
-                    <View>
-                      {!inMessage && this.renderDate(item.date)}
-                      <View style={[styles.item, itemStyle]}>
+                <FlatList style={styles.list}
+                  data={this.state.data}
+                  keyExtractor={(item) => {
+                    return item.id;
+                  }}
+                  renderItem={(message) => {
+                    console.log(item);
+                    const item = message.item;
+                    let inMessage = item.type === 'in';
+                    let itemStyle = inMessage ? styles.itemIn : styles.itemOut;
+                    return (
+                      <View>
+                        {!inMessage && this.renderDate(item.date)}
+                        <View style={[styles.item, itemStyle]}>
 
-                        <Text style={styles.msg}>{item.message}</Text>
+                          <Text style={styles.msg}>{item.message}</Text>
 
+                        </View>
+                        {inMessage && this.renderDate(item.date)}
                       </View>
-                      {inMessage && this.renderDate(item.date)}
-                    </View>
-                  )
-                }} />
-              <View style={styles.footer}>
+                    )
+                  }} />
+                <View style={styles.footer}>
 
-              <TouchableOpacity>
-              <Icon name="upload"  style={styles.uploadIcon}
-             onPress={this.uploadImage}
-            />
+                  <TouchableOpacity>
+                    <Icon name="upload" style={styles.uploadIcon}
+                      onPress={this.uploadImage}
+                    />
 
-                </TouchableOpacity>
-                <View style={styles.inputContainer}>
-                  <TextInput style={styles.inputs}
-                    placeholder="New Comment"
-                    underlineColorAndroid='transparent'
-                    onChangeText={text => this.setState({ passWord: text })} />
+                  </TouchableOpacity>
+                  <View style={styles.inputContainer}>
+                    <TextInput style={styles.inputs}
+                      placeholder="New Comment"
+                      underlineColorAndroid='transparent'
+                      onChangeText={text => this.setState({ passWord: text })} />
+                  </View>
+
+                  <TouchableOpacity style={styles.btnSend}>
+                    <Image source={{ uri: "https://png.icons8.com/small/75/ffffff/filled-sent.png" }} style={styles.iconSend}
+                      onPress={this.onPressSubmitButton.bind(this)} />
+
+                  </TouchableOpacity>
                 </View>
-
-                <TouchableOpacity style={styles.btnSend}>
-                  <Image source={{ uri: "https://png.icons8.com/small/75/ffffff/filled-sent.png" }} style={styles.iconSend}
-                    onPress={this.onPressSubmitButton.bind(this)} />
-
-                </TouchableOpacity>
-              </View>
-            </View>;
+              </View>;
 
             case "1":
               return <View style={styles.container}>
 
-              <HeaderComponent
-                title={"Audio"}
-                navigation={this.props.navigation}
-              />
+                <HeaderComponent
+                  title={"Audio"}
+                  navigation={this.props.navigation}
+                />
 
-              <FlatList style={styles.list}
-                data={this.state.data}
-                keyExtractor={(item) => {
-                  return item.id;
-                }}
-                renderItem={(message) => {
-                  console.log(item);
-                  const item = message.item;
-                  let inMessage = item.type === 'in';
-                  let itemStyle = inMessage ? styles.itemIn : styles.itemOut;
-                  return (
-                    <View>
-                      {!inMessage && this.renderDate(item.date)}
-                      <View style={[styles.item, itemStyle]}>
+                <FlatList style={styles.list}
+                  data={this.state.data}
+                  keyExtractor={(item) => {
+                    return item.id;
+                  }}
+                  renderItem={(message) => {
+                    console.log(item);
+                    const item = message.item;
+                    let inMessage = item.type === 'in';
+                    let itemStyle = inMessage ? styles.itemIn : styles.itemOut;
+                    return (
+                      <View>
+                        {!inMessage && this.renderDate(item.date)}
+                        <View style={[styles.item, itemStyle]}>
 
-                        <Text style={styles.msg}>{item.message}</Text>
+                          <Text style={styles.msg}>{item.message}</Text>
 
+                        </View>
+                        {inMessage && this.renderDate(item.date)}
                       </View>
-                      {inMessage && this.renderDate(item.date)}
-                    </View>
-                  )
-                }} />
-              <View style={styles.footer}>
+                    )
+                  }} />
+                <View style={styles.footer}>
 
-              <TouchableOpacity>
-              <Icon name="upload"  style={styles.uploadIcon}
-            
-            />
+                  <TouchableOpacity>
+                    <Icon name="upload" style={styles.uploadIcon}
 
-                </TouchableOpacity>
-                <View style={styles.inputContainer}>
-                  <TextInput style={styles.inputs}
-                    placeholder="New Comment"
-                    underlineColorAndroid='transparent'
-                    onChangeText={text => this.setState({ passWord: text })} />
+                    />
+
+                  </TouchableOpacity>
+                  <View style={styles.inputContainer}>
+                    <TextInput style={styles.inputs}
+                      placeholder="New Comment"
+                      underlineColorAndroid='transparent'
+                      onChangeText={text => this.setState({ passWord: text })} />
+                  </View>
+
+                  <TouchableOpacity style={styles.btnSend}>
+                    <Image source={{ uri: "https://png.icons8.com/small/75/ffffff/filled-sent.png" }} style={styles.iconSend}
+                      onPress={this.onPressSubmitButton.bind(this)} />
+
+                  </TouchableOpacity>
                 </View>
-
-                <TouchableOpacity style={styles.btnSend}>
-                  <Image source={{ uri: "https://png.icons8.com/small/75/ffffff/filled-sent.png" }} style={styles.iconSend}
-                    onPress={this.onPressSubmitButton.bind(this)} />
-
-                </TouchableOpacity>
-              </View>
-            </View>;
+              </View>;
 
             case "2":
               return <View style={styles.container}>
 
-              <HeaderComponent
-                title={"Video"}
-                navigation={this.props.navigation}
-              />
+                <HeaderComponent
+                  title={"Video"}
+                  navigation={this.props.navigation}
+                />
 
-              <FlatList style={styles.list}
-                data={this.state.data}
-                keyExtractor={(item) => {
-                  return item.id;
-                }}
-                renderItem={(message) => {
-                  console.log(item);
-                  const item = message.item;
-                  let inMessage = item.type === 'in';
-                  let itemStyle = inMessage ? styles.itemIn : styles.itemOut;
-                  return (
-                    <View>
-                      {!inMessage && this.renderDate(item.date)}
-                      <View style={[styles.item, itemStyle]}>
+                <FlatList style={styles.list}
+                  data={this.state.data}
+                  keyExtractor={(item) => {
+                    return item.id;
+                  }}
+                  renderItem={(message) => {
+                    console.log(item);
+                    const item = message.item;
+                    let inMessage = item.type === 'in';
+                    let itemStyle = inMessage ? styles.itemIn : styles.itemOut;
+                    return (
+                      <View>
+                        {!inMessage && this.renderDate(item.date)}
+                        <View style={[styles.item, itemStyle]}>
 
-                        <Text style={styles.msg}>{item.message}</Text>
+                          <Text style={styles.msg}>{item.message}</Text>
 
+                        </View>
+                        {inMessage && this.renderDate(item.date)}
                       </View>
-                      {inMessage && this.renderDate(item.date)}
-                    </View>
-                  )
-                }} />
-              <View style={styles.footer}>
+                    )
+                  }} />
+                <View style={styles.footer}>
 
-              <TouchableOpacity>
-              <Icon name="upload"  style={styles.uploadIcon}
-            onPress={this.uploadVideo}
-            />
+                  <TouchableOpacity>
+                    <Icon name="upload" style={styles.uploadIcon}
+                      onPress={this.uploadVideo}
+                    />
 
-                </TouchableOpacity>
-                <View style={styles.inputContainer}>
-                  <TextInput style={styles.inputs}
-                    placeholder="New Comment"
-                    underlineColorAndroid='transparent'
-                    onChangeText={text => this.setState({ passWord: text })} />
+                  </TouchableOpacity>
+                  <View style={styles.inputContainer}>
+                    <TextInput style={styles.inputs}
+                      placeholder="New Comment"
+                      underlineColorAndroid='transparent'
+                      onChangeText={text => this.setState({ passWord: text })} />
+                  </View>
+
+                  <TouchableOpacity style={styles.btnSend}>
+                    <Image source={{ uri: "https://png.icons8.com/small/75/ffffff/filled-sent.png" }} style={styles.iconSend}
+                      onPress={this.onPressSubmitButton.bind(this)} />
+
+                  </TouchableOpacity>
                 </View>
-
-                <TouchableOpacity style={styles.btnSend}>
-                  <Image source={{ uri: "https://png.icons8.com/small/75/ffffff/filled-sent.png" }} style={styles.iconSend}
-                    onPress={this.onPressSubmitButton.bind(this)} />
-
-                </TouchableOpacity>
-              </View>
-            </View>;
+              </View>;
 
             case "3":
               return <View style={styles.container}>
@@ -443,49 +459,38 @@ uploadVideo = () => {
               </View>
 
             case "4":
+
               if (this.state.survey_type == 1) {
                 return <View style={styles.MulticontainerView}>
                   <HeaderComponent
                     title={"Servey"}
                     navigation={this.props.navigation}
+
                   />
 
                   <View style={styles.MultisurveyView}>
-                    <Text style={styles.Multisurvey}>test survey 1</Text>
+                    <Text style={styles.Multisurvey}>{this.state.name}</Text>
                     <Text>please select one answer</Text>
-
                     <RadioGroup onSelect={() => this._onPressMulti()}>
-
                       <RadioButton style={styles.MultiradioButton}>
-                        <Text style={styles.MultiradioButtonText} >This is item #1</Text>
-                      </RadioButton>
+{/* 
+                        <FlatList
+                          data={this.state.options}
+                          showsVerticalScrollIndicator={false}
+                          renderItem={({ item }) =>
 
-                      <RadioButton style={styles.MultiradioButton}>
-                        <Text style={styles.MultiradioButtonText} >This is item #2</Text>
-                      </RadioButton>
 
-                      <RadioButton style={styles.MultiradioButton}>
-                        <Text style={styles.MultiradioButtonText}>This is item #3</Text>
-                      </RadioButton>
+                           
 
-                      <RadioButton style={styles.MultiradioButton}>
-                        <Text style={styles.MultiradioButtonText}>This is item #4</Text>
-                      </RadioButton>
+                          }
 
-                      <RadioButton style={styles.MultiradioButton}>
-                        <Text style={styles.MultiradioButtonText}>This is item #5</Text>
-                      </RadioButton>
+                        /> */}
+                         <Text style={styles.MultiradioButtonText}>
+                         {this.state.options}
+                          </Text>
 
-                      <RadioButton style={styles.MultiradioButton}>
-                        <Text style={styles.MultiradioButtonText}>This is item #6</Text>
                       </RadioButton>
-
-                      <RadioButton style={styles.MultiradioButton}>
-                        <Text style={styles.MultiradioButtonText}>This is item #7</Text>
-                      </RadioButton>
-
                     </RadioGroup>
-
                     <View>
 
                       {
@@ -504,20 +509,20 @@ uploadVideo = () => {
                           </View>
                       }
 
-
                       <View style={styles.MultisendView}>
                         <TouchableOpacity style={styles.Multisend}>
                           <Text style={styles.MultisendText}>
                             SEND
-                      </Text>
+                              </Text>
                         </TouchableOpacity>
                       </View>
 
                     </View>
-
                   </View>
 
+
                 </View>
+
               } else (this.state.survey_type == 0); {
                 return <View style={{ flex: 1 }}>
 
@@ -528,7 +533,7 @@ uploadVideo = () => {
 
                   <View style={{ backgroundColor: this.state.ColorHolder }} >
                     <View style={styles.RangescaleView}>
-                      <Text style={styles.Rangenewscale}>New Scacle 2.27 11:17 EST </Text>
+                      <Text style={styles.Rangenewscale}>{this.state.name} </Text>
                       <Text>please move the slider to select an answer</Text>
                     </View>
 
@@ -582,55 +587,54 @@ uploadVideo = () => {
 
             default: return <View style={styles.container}>
 
-            <HeaderComponent
-              title={"All"}
-              navigation={this.props.navigation}
-            />
+              <HeaderComponent
+                title={"All"}
+                navigation={this.props.navigation}
+              />
 
-            <FlatList style={styles.list}
-              data={this.state.data}
-              keyExtractor={(item) => {
-                return item.id;
-              }}
-              renderItem={(message) => {
-                console.log(item);
-                const item = message.item;
-                let inMessage = item.type === 'in';
-                let itemStyle = inMessage ? styles.itemIn : styles.itemOut;
-                return (
-                  <View>
-                    {!inMessage && this.renderDate(item.date)}
-                    <View style={[styles.item, itemStyle]}>
+              <FlatList style={styles.list}
+                data={this.state.data}
+                keyExtractor={(item) => {
+                  return item.id;
+                }}
+                renderItem={(message) => {
+                  const item = message.item;
+                  let inMessage = item.type === 'in';
+                  let itemStyle = inMessage ? styles.itemIn : styles.itemOut;
+                  return (
+                    <View>
+                      {!inMessage && this.renderDate(item.date)}
+                      <View style={[styles.item, itemStyle]}>
 
-                      <Text style={styles.msg}>{item.message}</Text>
+                        <Text style={styles.msg}>{item.message}</Text>
 
+                      </View>
+                      {inMessage && this.renderDate(item.date)}
                     </View>
-                    {inMessage && this.renderDate(item.date)}
-                  </View>
-                )
-              }} />
-            <View style={styles.footer}>
+                  )
+                }} />
+              <View style={styles.footer}>
 
-            <TouchableOpacity>
-            <Icon name="upload"  style={styles.uploadIcon}
-          
-          />
+                <TouchableOpacity>
+                  <Icon name="upload" style={styles.uploadIcon}
 
-              </TouchableOpacity>
-              <View style={styles.inputContainer}>
-                <TextInput style={styles.inputs}
-                  placeholder="New Comment"
-                  underlineColorAndroid='transparent'
-                  onChangeText={text => this.setState({ passWord: text })} />
+                  />
+
+                </TouchableOpacity>
+                <View style={styles.inputContainer}>
+                  <TextInput style={styles.inputs}
+                    placeholder="New Comment"
+                    underlineColorAndroid='transparent'
+                    onChangeText={text => this.setState({ passWord: text })} />
+                </View>
+
+                <TouchableOpacity style={styles.btnSend}>
+                  <Image source={{ uri: "https://png.icons8.com/small/75/ffffff/filled-sent.png" }} style={styles.iconSend}
+                    onPress={this.onPressSubmitButton.bind(this)} />
+
+                </TouchableOpacity>
               </View>
-
-              <TouchableOpacity style={styles.btnSend}>
-                <Image source={{ uri: "https://png.icons8.com/small/75/ffffff/filled-sent.png" }} style={styles.iconSend}
-                  onPress={this.onPressSubmitButton.bind(this)} />
-
-              </TouchableOpacity>
-            </View>
-          </View>;
+            </View>;
           }
         })()}
 
@@ -657,11 +661,11 @@ const styles = StyleSheet.create({
     borderTopColor: '#e7e7e7',
     borderTopWidth: 1,
   },
-  uploadIcon:{
-    fontSize:30,
-    color:'#2ba1d0',
-    margin:10,
-    marginTop:5,
+  uploadIcon: {
+    fontSize: 30,
+    color: '#2ba1d0',
+    margin: 10,
+    marginTop: 5,
   },
   btnSend: {
     backgroundColor: "#00BFFF",

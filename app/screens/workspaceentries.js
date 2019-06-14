@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { ScrollView, FlatList, AsyncStorage, ActivityIndicator, TouchableOpacity, Text, View, Image, ImageBackground, StyleSheet } from 'react-native';
+import { ScrollView, FlatList ,  AsyncStorage, ActivityIndicator, TouchableOpacity, Text, View, Image, ImageBackground, StyleSheet } from 'react-native';
 import HeaderComponent from '../components/header';
 import Loading from '../components/loader';
-
 
 export default class Workspaceentries extends Component {
     constructor(props) {
@@ -71,14 +70,25 @@ export default class Workspaceentries extends Component {
 
     renderItem = ({ item }) => {
 
+        const data = this.state.dataSource;
+        console.log("data", data)
+
+        var image = item.media_url;
+        if (item.file_type == 'image') {
+            image;
+        }
+        else {
+            image = "//d30qdikvwvm498.cloudfront.net/364082/37081-preview.jpg";
+        }
+        
         return (
 
             <ScrollView>
                 <View style={styles.cardborder}>
+
                     <View style={styles.cardView}>
                         <Text style={styles.time}>{item.orignal_created_at}</Text>
-                        <ImageBackground source={require("../images/test.jpg")} style={styles.image}>
-
+                        <Image source={{uri: 'http:' + item.media_url }} style={styles.image} />
                             <View style={styles.overlay}>
                                 <View style={styles.openView}>
                                     <TouchableOpacity
@@ -89,9 +99,8 @@ export default class Workspaceentries extends Component {
                                     </TouchableOpacity>
                                 </View>
                             </View>
-
-                        </ImageBackground>
                     </View>
+
                 </View>
 
             </ScrollView>
@@ -108,16 +117,6 @@ export default class Workspaceentries extends Component {
             )
         }
         else {
-            const data = this.state.dataSource;
-            console.log("data", data)
-
-            var image = data.project_image;
-            if (image == null) {
-                image = "//11m5ki43y82budjol1gjvv5s-wpengine.netdna-ssl.com/wp-content/uploads/2017/04/mobile-app-testing.jpg";
-            }
-            else {
-                image;
-            }
 
             return (
 
@@ -191,5 +190,12 @@ const styles = StyleSheet.create({
         paddingTop: 8,
         paddingBottom: 8,
 
-    }
+    },
+    backgroundVideo: {
+        position: 'absolute',
+        top: 50,
+        left: 0,
+        bottom: 0,
+        right: 0,
+      },
 });
