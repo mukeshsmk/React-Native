@@ -17,6 +17,7 @@ import Changepassword from '../screens/changepassword';
 import Newentry from '../screens/newentry';
 import Workspaceentries from '../screens/workspaceentries';
 import Groupchat from '../screens/groupchat';
+import Techsupport from '../screens/techsupport';
 
 const TabNavigator = createBottomTabNavigator({
   DetailsTab: {
@@ -135,7 +136,7 @@ const DrawerNavigator = createDrawerNavigator({
   Projects : {screen: StackNavigator },
   Profile : { screen: Profile },
   Langauges : { screen: Moderator },
-  TechSupport: { screen: Workspaces },
+  TechSupport: { screen: Techsupport },
   },
   {
     initialRouteName : 'Projects',

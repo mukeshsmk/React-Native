@@ -28,7 +28,10 @@ export default class Projects extends React.Component {
   renderItem = ({ item }) =>{
 
  var  image = item.project_image;
-  if (image ==  "//d30qdikvwvm498.cloudfront.net" ){
+  if (image ==  "//d30qdikvwvm498.cloudfront.net"){
+      image = "//11m5ki43y82budjol1gjvv5s-wpengine.netdna-ssl.com/wp-content/uploads/2017/04/mobile-app-testing.jpg";
+  }
+  else if(image ==  "d30qdikvwvm498.cloudfront.net/368481/downloadpng-resized.png"){
       image = "//11m5ki43y82budjol1gjvv5s-wpengine.netdna-ssl.com/wp-content/uploads/2017/04/mobile-app-testing.jpg";
   }
   else{
