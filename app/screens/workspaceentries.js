@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, FlatList ,  AsyncStorage, ActivityIndicator, TouchableOpacity, Text, View, Image, ImageBackground, StyleSheet } from 'react-native';
+import { ScrollView, FlatList, AsyncStorage, ActivityIndicator, TouchableOpacity, Text, View, Image, ImageBackground, StyleSheet } from 'react-native';
 import HeaderComponent from '../components/header';
 import Loading from '../components/loader';
 
@@ -78,9 +78,9 @@ export default class Workspaceentries extends Component {
             image;
         }
         else {
-            image = "//d30qdikvwvm498.cloudfront.net/364082/37081-preview.jpg";
+            image = "//11m5ki43y82budjol1gjvv5s-wpengine.netdna-ssl.com/wp-content/uploads/2017/04/mobile-app-testing.jpg";
         }
-        
+
         return (
 
             <ScrollView>
@@ -88,19 +88,31 @@ export default class Workspaceentries extends Component {
 
                     <View style={styles.cardView}>
                         <Text style={styles.time}>{item.orignal_created_at}</Text>
-                        <Image source={{uri: 'http:' + item.media_url }} style={styles.image} />
-                            <View style={styles.overlay}>
-                                <View style={styles.openView}>
-                                    <TouchableOpacity
-                                        style={styles.open}
-                                        onPress={() => this.props.navigation.navigate('Groupchat')}>
+                        <Image source={{ uri: 'http:' + image }} style={styles.image} />
+                        <View style={styles.overlay}>
+                            <View style={styles.openView}>
+                                <TouchableOpacity
+                                    style={styles.open}
+                                    onPress={() => this.props.navigation.navigate('Groupchat')}>
 
-                                        <Text style={styles.openText}> View Entry </Text>
-                                    </TouchableOpacity>
-                                </View>
+                                    <Text style={styles.openText}> View Entry </Text>
+                                </TouchableOpacity>
                             </View>
+                        </View>
                     </View>
 
+                    {/* <View style={styles.container}>
+                        <Video source={{ uri: 'http://d30qdikvwvm498.cloudfront.net/255525/ec86b74f-bbb8-462c-92b1-3fe3c728f6dd.mp4' }} 
+                            ref={(ref) => {
+                                this.player = ref
+                            }}                                      // Store reference
+                            onBuffer={this.onBuffer}                // Callback when remote video is buffering
+                            onEnd={this.onEnd}                      // Callback when playback finishes
+                            onError={this.videoError}               // Callback when video cannot be loaded
+                            style={styles.backgroundVideo} />
+                    </View> */}
+                 
+                    
                 </View>
 
             </ScrollView>
@@ -197,5 +209,5 @@ const styles = StyleSheet.create({
         left: 0,
         bottom: 0,
         right: 0,
-      },
+    },
 });

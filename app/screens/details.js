@@ -106,7 +106,8 @@ export default class Details extends Component {
                             </Text>
 
                             <Text style={styles.ownerName} >
-                                { data.manager.first_name }  { data.manager.last_name }
+                               { data.manager.first_name }  
+                               { data.manager.last_name }
                             </Text>
                            
                         </View>

@@ -5,21 +5,12 @@ import Loading from '../components/loader';
 import ImagePicker from 'react-native-image-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import fetch from 'cross-fetch';
-import { createStackNavigator } from 'react-navigation';
-import Changepassword from '../screens/changepassword';
 
 const options = {
     title: 'Choose Photo',
     takePhotoButtonTitle: 'Camera',
     chooseFromLibraryButtonTitle: 'Photo Library'
 };
-
-
-const PasswordNavigator = createStackNavigator({
-    Changepassword: {
-      screen: Changepassword
-    }
-  });
 
 export default class Profile extends Component {
 
@@ -160,7 +151,10 @@ export default class Profile extends Component {
                     />
 
                     <View style={styles.user}>
-                        <Text style={styles.userName}> Hi {data.first_name} {data.last_name} </Text>
+                        <Text style={styles.userName}> Hi 
+                        {data.first_name} 
+                        {data.last_name} 
+                        </Text>
                     </View>
 
                     <View style={styles.profile}>

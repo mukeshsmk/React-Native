@@ -473,21 +473,17 @@ export default class Newentry extends React.Component {
                     <Text>please select one answer</Text>
                     <RadioGroup onSelect={() => this._onPressMulti()}>
                       <RadioButton style={styles.MultiradioButton}>
-{/* 
+                        {/* 
                         <FlatList
                           data={this.state.options}
                           showsVerticalScrollIndicator={false}
                           renderItem={({ item }) =>
-
-
-                           
-
                           }
 
                         /> */}
-                         <Text style={styles.MultiradioButtonText}>
-                         {this.state.options}
-                          </Text>
+                        <Text style={styles.MultiradioButtonText}>
+                          {this.state.options}
+                        </Text>
 
                       </RadioButton>
                     </RadioGroup>
@@ -496,7 +492,6 @@ export default class Newentry extends React.Component {
                       {
                         this.state.MultishowMe ?
                           null
-
                           : <View style={styles.MultitextAreaContainer} >
                             <TextInput
                               style={styles.MultitextArea}
@@ -513,14 +508,12 @@ export default class Newentry extends React.Component {
                         <TouchableOpacity style={styles.Multisend}>
                           <Text style={styles.MultisendText}>
                             SEND
-                              </Text>
+                          </Text>
                         </TouchableOpacity>
                       </View>
 
                     </View>
                   </View>
-
-
                 </View>
 
               } else (this.state.survey_type == 0); {
@@ -552,7 +545,6 @@ export default class Newentry extends React.Component {
 
 
                     <View>
-
                       {
                         this.state.RangeshowMe ?
                           null

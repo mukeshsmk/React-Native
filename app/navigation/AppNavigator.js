@@ -58,11 +58,13 @@ const TabNavigator = createBottomTabNavigator({
 );
 
 const StackNavigator = createStackNavigator({
+  Projects : {screen: Projects },
   TabNavigator:TabNavigator,
   Newentry : { screen: Newentry },
   Mytasks : { screen : Mytasks },
   Workspaceentries: {screen: Workspaceentries },
   Groupchat: { screen: Groupchat },
+  Changepassword : { screen:Changepassword },
 },{
   headerMode: 'none',
   navigationOptions: {
@@ -129,8 +131,8 @@ const CustomDrawerContentComponent = props => (
 
 
 const DrawerNavigator = createDrawerNavigator({
-  Details : { screen: StackNavigator },
-  Projects : {screen: Projects },
+  // Details : { screen: StackNavigator },
+  Projects : {screen: StackNavigator },
   Profile : { screen: Profile },
   Langauges : { screen: Moderator },
   TechSupport: { screen: Workspaces },
@@ -141,7 +143,7 @@ const DrawerNavigator = createDrawerNavigator({
     contentComponent: CustomDrawerContentComponent,
     drawerCloseRoute: "DrawerClose",
     drawerToggleRoute: "DrawerToggle",
-    drawerWidth: 330,
+   
     contentOptions: {
       activeTintColor: 'none',
       itemsContainerStyle: {
@@ -205,7 +207,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
    
-    marginTop: '50%',
+    marginTop: '85%',
     // top: '135%',
   }
 });
