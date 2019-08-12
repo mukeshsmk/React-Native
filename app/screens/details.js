@@ -123,7 +123,6 @@ export default class Details extends Component {
                         <View style={{flex:1}}>
                         <WebView 
                         source={{html: data.description }}
-                        style={ styles.description }
                         />
                         </View>
                                         
